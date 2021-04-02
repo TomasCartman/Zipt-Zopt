@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Zipt Zopt</string>
+    <string name="conversation_image_content_description">Image of the contact or the group</string>
+    <string name="search_name_menu">Search</string>
+    <string name="new_group_name_menu">New group</string>
+    <string name="new_transmission_name_menu">New transmission</string>
+    <string name="favorite_messages_name_menu">Favorite messages</string>
+    <string name="configurations_name_menu">Configurations</string>
+</resources>
