@@ -3,6 +3,7 @@
     package="com.blackpineapple.ziptzopt">
 
     <application
+        android:name=".application.ZiptZoptApplication"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"

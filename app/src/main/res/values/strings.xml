@@ -6,4 +6,7 @@
     <string name="new_transmission_name_menu">New transmission</string>
     <string name="favorite_messages_name_menu">Favorite messages</string>
     <string name="configurations_name_menu">Configurations</string>
+    <string name="conversations_tab_name">Conversations</string>
+    <string name="status_tab_name">Status</string>
+    <string name="calls_tab_name">Calls</string>
 </resources>
