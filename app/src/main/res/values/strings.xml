@@ -6,7 +6,21 @@
     <string name="new_transmission_name_menu">New transmission</string>
     <string name="favorite_messages_name_menu">Favorite messages</string>
     <string name="configurations_name_menu">Configurations</string>
-    <string name="conversations_tab_name">Conversations</string>
+    <string name="chat_tab_name">Chat</string>
     <string name="status_tab_name">Status</string>
     <string name="calls_tab_name">Calls</string>
+    <string name="configurations">Configurations</string>
+    <string name="account_configurations">Account</string>
+    <string name="text_account_configurations">Privacy, security, change number</string>
+    <string name="chat_configurations">Chat</string>
+    <string name="text_chat_configurations">Theme, wallpaper, chat history</string>
+    <string name="notifications_configurations">Notifications</string>
+    <string name="text_notifications_configurations">Message, group ringing, call</string>
+    <string name="storage_configurations">Storage and data</string>
+    <string name="text_storage_configurations">Network usage, automatic download</string>
+    <string name="help_configurations">Help</string>
+    <string name="text_help_configurations">Help center, contact us, privacy policy</string>
+    <string name="invite_a_friend_configurations">Invite a friend</string>
+    <string name="text_not_from">not from</string>
+    <string name="facebook">facebook</string>
 </resources>

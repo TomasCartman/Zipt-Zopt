@@ -1,5 +1,6 @@
 package com.blackpineapple.ziptzopt.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.MenuItem
@@ -9,6 +10,7 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
+import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
 import com.blackpineapple.ziptzopt.viewmodel.FragmentConversationsViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import timber.log.Timber
@@ -32,12 +34,12 @@ class FragmentConversations : Fragment() {
         val view = inflater.inflate(R.layout.fragment_conversations, container, false)
 
         toolbar = view.findViewById(R.id.conversations_toolbar)
-        setupToolBar()
+        setupToolbar()
 
         return view
     }
 
-    private fun setupToolBar() {
+    private fun setupToolbar() {
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
         val searchView: SearchView = searchItem.actionView as SearchView
 
@@ -58,6 +60,21 @@ class FragmentConversations : Fragment() {
                     return true
                 }
             })
+        }
+
+        setupToolbarClicks()
+    }
+
+    private fun setupToolbarClicks() {
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.configurations_menu -> {
+                    val intent = Intent(activity, ConfigurationsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
         }
     }
 }
