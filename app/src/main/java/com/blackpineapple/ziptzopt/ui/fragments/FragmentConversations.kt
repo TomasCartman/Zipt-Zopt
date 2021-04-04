@@ -31,6 +31,7 @@ class FragmentConversations : Fragment() {
     ): View? {
         val view = inflater.inflate(R.layout.fragment_conversations, container, false)
 
+        toolbar = view.findViewById(R.id.conversations_toolbar)
         setupToolBar()
 
         return view
@@ -38,7 +39,7 @@ class FragmentConversations : Fragment() {
 
     private fun setupToolBar() {
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
-        val searchView = searchItem.actionView as SearchView
+        val searchView: SearchView = searchItem.actionView as SearchView
 
         searchView.apply {
             setOnQueryTextListener(object : SearchView.OnQueryTextListener {
