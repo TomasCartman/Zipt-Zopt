@@ -23,4 +23,14 @@
     <string name="invite_a_friend_configurations">Invite a friend</string>
     <string name="text_not_from">not from</string>
     <string name="facebook">facebook</string>
+    <string name="favorite_messages_text">Favorite messages</string>
+    <string name="disfavor_all_text">Disfavor all</string>
+    <string name="your_name_text">Your name</string>
+    <string name="your_message_text">Your message</string>
+    <string name="profile_text">Profile</string>
+    <string name="name_text">Name</string>
+    <string name="profile_name_disclaimer">This is not your username or your PIN. This name will be visible to your ZiptZopt contacts.</string>
+    <string name="message_text">Message</string>
+    <string name="phone_text">Phone</string>
+    <string name="phone_example">+00 00 00000-0000</string>
 </resources>
