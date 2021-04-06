@@ -20,6 +20,13 @@
         <activity android:name=".ui.activities.ConfigurationsActivity">
 
         </activity>
+        <activity android:name=".ui.activities.ProfileActivity">
+
+        </activity>
+
+        <meta-data
+            android:name="preloaded_fonts"
+            android:resource="@array/preloaded_fonts" />
     </application>
 
 </manifest>

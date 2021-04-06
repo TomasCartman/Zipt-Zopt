@@ -24,20 +24,20 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        toolbar = findViewById(R.id.chat_toolbar)
+        //setupToolbar()
+
         mViewPager = findViewById(R.id.pager)
         createViewPager()
-
-        toolbar = findViewById(R.id.chat_toolbar)
-        setupToolbar()
 
         setupTabLayout()
     }
 
     private fun createViewPager() {
         val fragments = arrayListOf(
-                FragmentChat.newInstance(),
-                FragmentStatus.newInstance(),
-                FragmentCalls.newInstance()
+                FragmentChat.newInstance(toolbar),
+                FragmentStatus.newInstance(toolbar),
+                FragmentCalls.newInstance(toolbar)
         )
 
         mViewPager.adapter = ViewPagerAdapter(supportFragmentManager, this.lifecycle, fragments)

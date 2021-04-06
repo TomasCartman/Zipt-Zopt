@@ -19,7 +19,7 @@
             android:id="@+id/chat_toolbar"
             style="@style/Widget.MaterialComponents.Toolbar.Primary"
             app:layout_scrollFlags="scroll|enterAlways|snap"
-            app:menu="@menu/fragment_chat_menu"
+
             app:title="@string/app_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />
