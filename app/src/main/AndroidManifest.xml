@@ -23,6 +23,12 @@
         <activity android:name=".ui.activities.ProfileActivity">
 
         </activity>
+        <activity android:name=".ui.activities.AccountActivity">
+
+        </activity>
+        <activity android:name=".ui.activities.MessageActivity">
+
+        </activity>
 
         <meta-data
             android:name="preloaded_fonts"

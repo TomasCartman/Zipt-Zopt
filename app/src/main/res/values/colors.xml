@@ -10,7 +10,10 @@
 
 
     <color name="gray">#8C8C8C</color>
+    <color name="light_gray">#DCDCDC</color>
 
     <color name="teal_green">#128C7E</color>
     <color name="teal_dark_green">#075E54</color>
+    <color name="light_green">#DCF8C6</color>
+    <color name="green">#25D366</color>
 </resources>

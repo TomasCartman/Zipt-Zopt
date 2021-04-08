@@ -3,7 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -40,6 +39,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/name_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -86,18 +86,20 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/profile_name_disclaimer" />
 
-            <View
-                android:id="@+id/first_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@android:color/darker_gray" />
-
         </LinearLayout>
     </LinearLayout>
 
+    <View
+        android:id="@+id/first_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="64dp"
+        android:background="@android:color/darker_gray" />
+
     <LinearLayout
+        android:id="@+id/message_profile_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
@@ -133,16 +135,17 @@
                 android:fontFamily="@font/roboto"
                 android:text="@string/your_message_text" />
 
-            <View
-                android:id="@+id/second_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@android:color/darker_gray" />
-
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/second_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="64dp"
+        android:background="@android:color/darker_gray" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -178,15 +181,16 @@
                 android:layout_marginStart="16dp"
                 android:text="@string/phone_example"/>
 
-            <View
-                android:id="@+id/third_divider"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_marginTop="16dp"
-                android:layout_marginStart="16dp"
-                android:background="@android:color/darker_gray" />
-
         </LinearLayout>
     </LinearLayout>
+
+    <View
+        android:id="@+id/third_divider"
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginBottom="8dp"
+        android:layout_marginStart="64dp"
+        android:background="@android:color/darker_gray" />
 
 </LinearLayout>

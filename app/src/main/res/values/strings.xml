@@ -35,4 +35,27 @@
     <string name="phone_example">+00 00 00000-0000</string>
     <string name="status_privacy_menu_text">Status privacy</string>
     <string name="clear_call_log_menu_text">Clear call log</string>
+    <string name="account_text">Account</string>
+    <string name="privacy_text">Privacy</string>
+    <string name="security_text">Security</string>
+    <string name="two_step_verification_text">Two-step verification</string>
+    <string name="change_number_text">Change number</string>
+    <string name="request_account_data_text">Request account data</string>
+    <string name="delete_my_account_text">Delete my account</string>
+    <string name="security_ziptzopt">ZiptZopt does not protect your conversations with end-to-end encryption. Your messages, calls and status updates may not be just between you and the people you choose. Even ZiptZopt can read or listen to them.</string>
+    <string name="two_step_verification_ziptzopt">For added security, enable two-step verification, which will ask for a PIN when you register your phone number with ZiptZopt again.</string>
+    <string name="activate_text">Activate</string>
+    <string name="defined_as_text">Defined as</string>
+    <string name="select_message_text">Select message</string>
+    <string name="occupied_text">Occupied</string>
+    <string name="available_text">Available</string>
+    <string name="in_school_text">In school</string>
+    <string name="at_the_movies_text">At the movies</string>
+    <string name="at_work_text">At work</string>
+    <string name="battery_about_to_run_out_text">Battery about to run out</string>
+    <string name="i_cant_speak_only_ziptzopt_text">I can\'t speak, only ZiptZopt</string>
+    <string name="in_meeting_text">In meeting</string>
+    <string name="at_the_gym_text">At the gym</string>
+    <string name="sleeping_text">Sleeping</string>
+    <string name="only_urgent_calls_text">Only urgent calls</string>
 </resources>

@@ -93,6 +93,7 @@
                 android:background="@android:color/darker_gray" />
 
             <LinearLayout
+                android:id="@+id/account_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
@@ -282,6 +283,7 @@
                 android:orientation="horizontal"
                 android:padding="16dp"
                 android:paddingEnd="0dp"
+                android:paddingBottom="0dp"
                 android:clickable="true"
                 android:focusable="true"
                 android:background="?attr/selectableItemBackground">
@@ -320,17 +322,21 @@
                         android:text="@string/text_help_configurations"
                         android:clickable="false"/>
 
-                    <View
-                        android:id="@+id/second_divider"
-                        android:layout_width="match_parent"
-                        android:layout_height="0.5dp"
-                        android:layout_marginTop="24dp"
-                        android:background="@android:color/darker_gray"
-                        android:clickable="false"/>
+
 
                 </LinearLayout>
 
             </LinearLayout>
+
+            <View
+                android:id="@+id/second_divider"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_marginStart="80dp"
+                android:background="@android:color/darker_gray"
+                android:clickable="false"/>
 
             <LinearLayout
                 android:layout_width="match_parent"

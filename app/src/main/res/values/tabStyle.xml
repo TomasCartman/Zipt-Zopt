@@ -3,7 +3,7 @@
     <style name="tabLayoutTextAppearance" parent="TextAppearance.MaterialComponents.Button">
         <item name="android:textSize">12sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:fontFamily">@font/helvetica_neue_light</item>
-        <item name="fontFamily">@font/helvetica_neue_light</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="fontFamily">@font/roboto</item>
     </style>
 </resources>

@@ -9,7 +9,8 @@ import com.google.android.material.appbar.MaterialToolbar
 
 class ConfigurationsActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
-    private lateinit var profile_layout: LinearLayout
+    private lateinit var profileLayout: LinearLayout
+    private lateinit var accountLayout: LinearLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -18,7 +19,8 @@ class ConfigurationsActivity : AppCompatActivity() {
         toolbar = findViewById(R.id.configurations_toolbar)
         setupToolbar()
 
-        profile_layout = findViewById(R.id.profile_layout)
+        profileLayout = findViewById(R.id.profile_layout)
+        accountLayout = findViewById(R.id.account_layout)
         setClickHandle()
     }
 
@@ -29,8 +31,13 @@ class ConfigurationsActivity : AppCompatActivity() {
     }
 
     private fun setClickHandle() {
-        profile_layout.setOnClickListener {
+        profileLayout.setOnClickListener {
             val intent = Intent(this, ProfileActivity::class.java)
+            startActivity(intent)
+        }
+
+        accountLayout.setOnClickListener {
+            val intent = Intent(this, AccountActivity::class.java)
             startActivity(intent)
         }
     }
