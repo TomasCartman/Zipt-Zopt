@@ -10,9 +10,7 @@ import java.lang.NullPointerException
 
 class FirebaseRepository(private val uid: String) {
     private val databaseRef: DatabaseReference = Database.userReference(uid)
-    private var userMutableLiveData = MutableLiveData<User>()
-    val userLiveData: LiveData<User>
-        get() = userMutableLiveData
+    var userMutableLiveData = MutableLiveData<User>()
 
     fun getUserInfo() {
         databaseRef.addValueEventListener(UserChangeListener())

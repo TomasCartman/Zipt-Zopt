@@ -9,27 +9,27 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import androidx.lifecycle.LiveData
+import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.model.User
-import com.blackpineapple.ziptzopt.firebase.Auth
-import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
+import com.blackpineapple.ziptzopt.viewmodel.MessageActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var actualMessageTextView: TextView
-    private lateinit var firebaseRepository: FirebaseRepository
+    private lateinit var messageActivityViewModel: MessageActivityViewModel
     private lateinit var userLiveData: LiveData<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
 
-        val user = Auth.firebaseAuth.currentUser
-        firebaseRepository = FirebaseRepository(user.uid)
-        firebaseRepository.getUserInfo()
+        messageActivityViewModel = ViewModelProvider
+                .NewInstanceFactory()
+                .create(MessageActivityViewModel::class.java)
 
-        userLiveData = firebaseRepository.userLiveData
+        userLiveData = messageActivityViewModel.userLiveData
         userLiveData.observe(this, {
             actualMessageTextView.text = it.message
         })
@@ -41,7 +41,7 @@ class MessageActivity : AppCompatActivity() {
         setupToolbar()
 
         setClickHandle()
-        setDefaultMessage(message = actualMessageTextView.text.toString())
+        setDefaultMessage(messageActivityViewModel.getMessageSelectorNumber(this))
     }
 
     private fun setupToolbar() {
@@ -80,16 +80,12 @@ class MessageActivity : AppCompatActivity() {
     private fun setUserMessageOnFirebase() {
         actualMessageTextView.doOnTextChanged { text, _, _, _ ->
             if(text != null) {
-                val userWithNewMessage = userLiveData.value
-                if (userWithNewMessage != null) {
-                    userWithNewMessage.message = text.toString()
-                    firebaseRepository.setUserInfo(userWithNewMessage)
-                }
+                messageActivityViewModel.setUserMessage(text.toString())
             }
         }
     }
 
-    private fun setDefaultMessage(i: Int = -1, message: String = "") {
+    private fun setDefaultMessage(i: Int) {
         val actualMessageTextView = findViewById<TextView>(R.id.actual_message_textView)
         val icons = arrayListOf<ImageView>(
             findViewById(R.id.last_message_icon),
@@ -105,7 +101,6 @@ class MessageActivity : AppCompatActivity() {
             findViewById(R.id.tenth_message_icon),
             findViewById(R.id.eleventh_message_icon)
         )
-
         val messages = arrayListOf(
                 getString(R.string.available_text),
                 getString(R.string.occupied_text),
@@ -122,13 +117,6 @@ class MessageActivity : AppCompatActivity() {
 
         val transparentDrawable = ColorDrawable(Color.TRANSPARENT)
         icons.forEach { it.setImageDrawable(transparentDrawable) }
-        message.forEachIndexed { index, c ->
-            if (c.toString() == message) {
-                actualMessageTextView.text = messages[index]
-                icons[index+1].setImageDrawable(getDrawable(R.drawable.icon_check))
-                return
-            }
-        }
 
         when(i) {
             0 -> {
@@ -141,5 +129,6 @@ class MessageActivity : AppCompatActivity() {
                 icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
             }
         }
+        messageActivityViewModel.setMessageSelectorNumber(this, i)
     }
 }
