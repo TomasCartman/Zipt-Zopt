@@ -58,4 +58,11 @@
     <string name="at_the_gym_text">At the gym</string>
     <string name="sleeping_text">Sleeping</string>
     <string name="only_urgent_calls_text">Only urgent calls</string>
+    <string name="enter_six_digit_code_text">Enter 6-digit code</string>
+    <string name="verify_your_phone_number_text">Verify your phone number</string>
+    <string name="phone_enter_screen_text">ZiptZopt will send an SMS message (carrier charges may apply) to verify your phone number. Enter your country code and phone number:</string>
+    <string name="phone_number_hint_text">phone number</string>
+    <string name="plus_hint_text">+</string>
+    <string name="phone_enter_age_disclaimer_text">You must be at least 16 years old to register. Learn how ZiptZopt works without Facebook Companies</string>
+    <string name="next_text">Next</string>
 </resources>

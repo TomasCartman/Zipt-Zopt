@@ -3,34 +3,63 @@ package com.blackpineapple.ziptzopt.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.view.MenuItem
-import androidx.appcompat.widget.SearchView
+import android.widget.Toast
 import androidx.viewpager2.widget.ViewPager2
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.adapters.ViewPagerAdapter
+import com.blackpineapple.ziptzopt.firebase.Auth
 import com.blackpineapple.ziptzopt.ui.fragments.FragmentCalls
 import com.blackpineapple.ziptzopt.ui.fragments.FragmentChat
 import com.blackpineapple.ziptzopt.ui.fragments.FragmentStatus
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
-import timber.log.Timber
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.PhoneAuthOptions
+
 
 class MainActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager2
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var firebaseAuth: FirebaseAuth
+    private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        firebaseAuth = Auth.firebaseAuth
+
         toolbar = findViewById(R.id.chat_toolbar)
-        //setupToolbar()
 
         mViewPager = findViewById(R.id.pager)
         createViewPager()
 
         setupTabLayout()
+
+        authStateListener = FirebaseAuth.AuthStateListener {
+            val user = firebaseAuth.currentUser
+            if(user != null) {
+                //User is signed in
+                Toast.makeText(this, "You are signed in", Toast.LENGTH_SHORT).show()
+                firebaseAuth.signOut()
+            } else {
+                Toast.makeText(this, "You are not signed in", Toast.LENGTH_SHORT).show()
+                startActivity(Intent(this, PhoneEnterActivity::class.java))
+                finish()
+            }
+        }
+
+    }
+
+    override fun onResume() {
+        super.onResume()
+        firebaseAuth.addAuthStateListener(authStateListener)
+    }
+
+    override fun onPause() {
+        super.onPause()
+        firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
     private fun createViewPager() {
@@ -41,45 +70,6 @@ class MainActivity : AppCompatActivity() {
         )
 
         mViewPager.adapter = ViewPagerAdapter(supportFragmentManager, this.lifecycle, fragments)
-    }
-
-    private fun setupToolbar() {
-        val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
-        val searchView: SearchView = searchItem.actionView as SearchView
-
-        searchView.apply {
-            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
-                override fun onQueryTextSubmit(query: String?): Boolean {
-                    if(query != null) {
-                        Timber.i(query)
-                        // Does serch
-                    }
-                    return true
-                }
-
-                override fun onQueryTextChange(newText: String?): Boolean {
-                    if(newText.isNullOrEmpty()) {
-                        // Gets all the list if newText is empty
-                    }
-                    return true
-                }
-            })
-        }
-
-        setupToolbarClicks()
-    }
-
-    private fun setupToolbarClicks() {
-        toolbar.setOnMenuItemClickListener { menuItem ->
-            when(menuItem.itemId) {
-                R.id.configurations_menu -> {
-                    val intent = Intent(this, ConfigurationsActivity::class.java)
-                    startActivity(intent)
-                    true
-                }
-                else -> false
-            }
-        }
     }
 
     private fun setupTabLayout() {
@@ -97,5 +87,9 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+    }
+
+    companion object {
+        const val SIGN_IN_FLAG = 1
     }
 }

@@ -2,6 +2,10 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.blackpineapple.ziptzopt">
 
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
     <application
         android:name=".application.ZiptZoptApplication"
         android:allowBackup="true"
@@ -17,18 +21,12 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activities.ConfigurationsActivity">
-
-        </activity>
-        <activity android:name=".ui.activities.ProfileActivity">
-
-        </activity>
-        <activity android:name=".ui.activities.AccountActivity">
-
-        </activity>
-        <activity android:name=".ui.activities.MessageActivity">
-
-        </activity>
+        <activity android:name=".ui.activities.ConfigurationsActivity"/>
+        <activity android:name=".ui.activities.ProfileActivity"/>
+        <activity android:name=".ui.activities.AccountActivity"/>
+        <activity android:name=".ui.activities.MessageActivity"/>
+        <activity android:name=".ui.activities.CodeVerificationActivity"/>
+        <activity android:name=".ui.activities.PhoneEnterActivity"/>
 
         <meta-data
             android:name="preloaded_fonts"
