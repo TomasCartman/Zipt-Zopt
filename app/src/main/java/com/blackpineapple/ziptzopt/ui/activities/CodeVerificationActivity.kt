@@ -9,7 +9,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.alimuzaffar.lib.pin.PinEntryEditText
 import com.blackpineapple.ziptzopt.R
+import com.blackpineapple.ziptzopt.data.model.User
 import com.blackpineapple.ziptzopt.firebase.Auth
+import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -80,8 +82,13 @@ class CodeVerificationActivity : AppCompatActivity() {
     }
 
     private fun verifyCode(code: String) {
-        val credential = PhoneAuthProvider.getCredential(codeSentByFirebase, code)
-        signInWithPhoneAuthCredential(credential)
+        try {
+            val credential = PhoneAuthProvider.getCredential(codeSentByFirebase, code)
+            signInWithPhoneAuthCredential(credential)
+        } catch (err: IllegalArgumentException) {
+            Timber.e(err.stackTraceToString())
+            Toast.makeText(this, "An error happened", Toast.LENGTH_LONG).show()
+        }
     }
 
     private fun signInWithPhoneAuthCredential(credential: PhoneAuthCredential) {
@@ -97,10 +104,11 @@ class CodeVerificationActivity : AppCompatActivity() {
 
                     val user = task.result?.user
                     val firebaseAuth = Auth.firebaseAuth
-
-                    //user?.uid
-                    //user?.phoneNumber
                     firebaseAuth.updateCurrentUser(user)
+                    if(user != null) {
+                        val firebaseRepository = FirebaseRepository(user.uid)
+                        firebaseRepository.setUserInfo(User(uid = user.uid, phoneNumber = user.phoneNumber))
+                    }
 
                     startActivity(Intent(this, MainActivity::class.java))
                     finish()

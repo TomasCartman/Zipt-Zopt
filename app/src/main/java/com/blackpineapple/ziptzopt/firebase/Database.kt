@@ -8,10 +8,10 @@ import com.google.firebase.ktx.Firebase
 class Database {
     companion object {
         private const val REF_USERS = "users"
-        private val firebaseDatabase : FirebaseDatabase = Firebase.database
-        private val usersReference = firebaseDatabase.reference.child(REF_USERS)
+        private val firebaseDatabase: FirebaseDatabase = Firebase.database
+        private val usersReference: DatabaseReference = firebaseDatabase.reference.child(REF_USERS)
 
-        fun userReference(uid: String) : DatabaseReference {
+        fun userReference(uid: String): DatabaseReference {
             return usersReference.child(uid)
         }
     }

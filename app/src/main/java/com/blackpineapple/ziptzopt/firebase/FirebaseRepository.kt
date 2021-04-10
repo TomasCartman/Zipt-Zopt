@@ -1,35 +1,35 @@
 package com.blackpineapple.ziptzopt.firebase
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blackpineapple.ziptzopt.data.model.User
-import com.google.firebase.database.DataSnapshot
-import com.google.firebase.database.DatabaseError
-import com.google.firebase.database.ValueEventListener
+import com.google.firebase.database.*
 import timber.log.Timber
+import java.lang.NullPointerException
 
-class FirebaseRepository(uid: String) {
-    private val databaseRef = Database.userReference(uid)
+class FirebaseRepository(private val uid: String) {
+    private val databaseRef: DatabaseReference = Database.userReference(uid)
     private var userMutableLiveData = MutableLiveData<User>()
     val userLiveData: LiveData<User>
         get() = userMutableLiveData
 
-    init {
-        getUserInfo()
-    }
-
-    private fun getUserInfo() {
-        databaseRef.addValueEventListener(valueChangeListener)
+    fun getUserInfo() {
+        databaseRef.addValueEventListener(UserChangeListener())
     }
 
     fun setUserInfo(user: User) {
-        databaseRef.updateChildren(user.toMap())
+        databaseRef.setValue(user.toMap())
     }
 
-    private val valueChangeListener = object : ValueEventListener {
+    private inner class UserChangeListener : ValueEventListener {
         override fun onDataChange(snapshot: DataSnapshot) {
-            val user = snapshot.getValue(User::class.java)
-            userMutableLiveData.value = user
+            try {
+                val user = User.createUser(snapshot)
+                userMutableLiveData.value = user
+            } catch (err: NullPointerException) {
+                Timber.e(err.stackTraceToString())
+            }
         }
 
         override fun onCancelled(error: DatabaseError) {

@@ -7,20 +7,41 @@ import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.widget.doOnTextChanged
+import androidx.lifecycle.LiveData
 import com.blackpineapple.ziptzopt.R
+import com.blackpineapple.ziptzopt.data.model.User
+import com.blackpineapple.ziptzopt.firebase.Auth
+import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
 import com.google.android.material.appbar.MaterialToolbar
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var actualMessageTextView: TextView
+    private lateinit var firebaseRepository: FirebaseRepository
+    private lateinit var userLiveData: LiveData<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_message)
 
+        val user = Auth.firebaseAuth.currentUser
+        firebaseRepository = FirebaseRepository(user.uid)
+        firebaseRepository.getUserInfo()
+
+        userLiveData = firebaseRepository.userLiveData
+        userLiveData.observe(this, {
+            actualMessageTextView.text = it.message
+        })
+
+        actualMessageTextView = findViewById(R.id.actual_message_textView)
+        setUserMessageOnFirebase()
+
         toolbar = findViewById(R.id.configurations_toolbar)
         setupToolbar()
 
         setClickHandle()
+        setDefaultMessage(message = actualMessageTextView.text.toString())
     }
 
     private fun setupToolbar() {
@@ -56,7 +77,19 @@ class MessageActivity : AppCompatActivity() {
         eleventhMessageLayout.setOnClickListener { setDefaultMessage(11) }
     }
 
-    private fun setDefaultMessage(i: Int = 0) {
+    private fun setUserMessageOnFirebase() {
+        actualMessageTextView.doOnTextChanged { text, _, _, _ ->
+            if(text != null) {
+                val userWithNewMessage = userLiveData.value
+                if (userWithNewMessage != null) {
+                    userWithNewMessage.message = text.toString()
+                    firebaseRepository.setUserInfo(userWithNewMessage)
+                }
+            }
+        }
+    }
+
+    private fun setDefaultMessage(i: Int = -1, message: String = "") {
         val actualMessageTextView = findViewById<TextView>(R.id.actual_message_textView)
         val icons = arrayListOf<ImageView>(
             findViewById(R.id.last_message_icon),
@@ -72,9 +105,30 @@ class MessageActivity : AppCompatActivity() {
             findViewById(R.id.tenth_message_icon),
             findViewById(R.id.eleventh_message_icon)
         )
-        val transparentDrawable = ColorDrawable(Color.TRANSPARENT)
 
+        val messages = arrayListOf(
+                getString(R.string.available_text),
+                getString(R.string.occupied_text),
+                getString(R.string.in_school_text),
+                getString(R.string.at_the_movies_text),
+                getString(R.string.at_work_text),
+                getString(R.string.battery_about_to_run_out_text),
+                getString(R.string.i_cant_speak_only_ziptzopt_text),
+                getString(R.string.in_meeting_text),
+                getString(R.string.at_the_gym_text),
+                getString(R.string.sleeping_text),
+                getString(R.string.only_urgent_calls_text)
+        )
+
+        val transparentDrawable = ColorDrawable(Color.TRANSPARENT)
         icons.forEach { it.setImageDrawable(transparentDrawable) }
+        message.forEachIndexed { index, c ->
+            if (c.toString() == message) {
+                actualMessageTextView.text = messages[index]
+                icons[index+1].setImageDrawable(getDrawable(R.drawable.icon_check))
+                return
+            }
+        }
 
         when(i) {
             0 -> {
@@ -82,48 +136,8 @@ class MessageActivity : AppCompatActivity() {
                 actualMessageTextView.text = getString(R.string.your_message_text)
                 icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
             }
-            1 -> {
-                actualMessageTextView.text = getString(R.string.available_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            2 -> {
-                actualMessageTextView.text = getString(R.string.occupied_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            3 -> {
-                actualMessageTextView.text = getString(R.string.in_school_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            4 -> {
-                actualMessageTextView.text = getString(R.string.at_the_movies_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            5 -> {
-                actualMessageTextView.text = getString(R.string.at_work_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            6 -> {
-                actualMessageTextView.text = getString(R.string.battery_about_to_run_out_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            7 -> {
-                actualMessageTextView.text = getString(R.string.i_cant_speak_only_ziptzopt_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            8 -> {
-                actualMessageTextView.text = getString(R.string.in_meeting_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            9 -> {
-                actualMessageTextView.text = getString(R.string.at_the_gym_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            10 -> {
-                actualMessageTextView.text = getString(R.string.sleeping_text)
-                icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
-            }
-            11 -> {
-                actualMessageTextView.text = getString(R.string.only_urgent_calls_text)
+            else -> {
+                actualMessageTextView.text = messages[i-1]
                 icons[i].setImageDrawable(getDrawable(R.drawable.icon_check))
             }
         }
