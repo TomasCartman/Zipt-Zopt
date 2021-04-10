@@ -26,7 +26,8 @@
         <activity android:name=".ui.activities.AccountActivity"/>
         <activity android:name=".ui.activities.MessageActivity"/>
         <activity android:name=".ui.activities.CodeVerificationActivity"/>
-        <activity android:name=".ui.activities.PhoneEnterActivity"/>
+        <activity android:name=".ui.activities.PhoneEnterActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="preloaded_fonts"

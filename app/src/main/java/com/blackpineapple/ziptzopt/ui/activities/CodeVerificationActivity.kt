@@ -37,7 +37,13 @@ class CodeVerificationActivity : AppCompatActivity() {
         val phoneNumber = intent.getStringExtra(PHONE_NUMBER)
         if (phoneNumber != null) {
             sendVerificationCodeToUser(phoneNumber)
+            changeNumberInTextViews(phoneNumber)
         }
+    }
+
+    private fun changeNumberInTextViews(phoneNumber: String) {
+        verifyTextView.text = getString(R.string.verify_number, phoneNumber)
+        waitingTextView.text = getString(R.string.waiting_for_verifying, phoneNumber)
     }
 
     private fun sendVerificationCodeToUser(phoneNumber: String) {
@@ -61,14 +67,14 @@ class CodeVerificationActivity : AppCompatActivity() {
         }
 
         override fun onVerificationFailed(p0: FirebaseException) {
-            p0.message?.let { Log.e("error", it) }
+            p0.message?.let { Timber.e(it) }
             Toast.makeText( this@CodeVerificationActivity, p0.message, Toast.LENGTH_LONG).show()
         }
 
         override fun onCodeSent(p0: String, p1: PhoneAuthProvider.ForceResendingToken) {
             super.onCodeSent(p0, p1)
             codeSentByFirebase = p0
-            Log.e("a", codeSentByFirebase)
+            Timber.d(codeSentByFirebase)
         }
 
     }
@@ -100,7 +106,7 @@ class CodeVerificationActivity : AppCompatActivity() {
                     Timber.w("signInWithCredential:failure ${task.exception}")
                     if (task.exception is FirebaseAuthInvalidCredentialsException) {
                         // The verification code entered was invalid
-                        Toast.makeText(this, "Verification not completed", Toast.LENGTH_SHORT).show()
+                       // Toast.makeText(this, "The verification code entered was invalid", Toast.LENGTH_SHORT).show()
                     }
                     // Update UI
                 }
@@ -108,10 +114,10 @@ class CodeVerificationActivity : AppCompatActivity() {
     }
 
     private fun pinEntryListener() {
-        pinEntryEditText.doOnTextChanged { text, _, _, count ->
+        pinEntryEditText.doOnTextChanged { text, _, _, _ ->
             if(text != null) {
                 if(text.length >= 6) {
-                    Log.d("text", text.toString())
+                    Timber.d(text.toString())
                     verifyCode(text.toString())
                 }
             }

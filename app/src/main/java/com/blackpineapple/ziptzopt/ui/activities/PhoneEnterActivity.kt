@@ -34,6 +34,7 @@ class PhoneEnterActivity : AppCompatActivity() {
         val intent = Intent(this, CodeVerificationActivity::class.java)
         intent.putExtra(CodeVerificationActivity.PHONE_NUMBER, completePhoneNumber)
         startActivity(intent)
+        finish()
     }
 
     private fun validatePhoneNumber(): Boolean {

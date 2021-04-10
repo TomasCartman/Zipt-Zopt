@@ -42,14 +42,12 @@ class MainActivity : AppCompatActivity() {
             if(user != null) {
                 //User is signed in
                 Toast.makeText(this, "You are signed in", Toast.LENGTH_SHORT).show()
-                firebaseAuth.signOut()
             } else {
                 Toast.makeText(this, "You are not signed in", Toast.LENGTH_SHORT).show()
                 startActivity(Intent(this, PhoneEnterActivity::class.java))
                 finish()
             }
         }
-
     }
 
     override fun onResume() {

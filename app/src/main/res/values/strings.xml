@@ -65,4 +65,6 @@
     <string name="plus_hint_text">+</string>
     <string name="phone_enter_age_disclaimer_text">You must be at least 16 years old to register. Learn how ZiptZopt works without Facebook Companies</string>
     <string name="next_text">Next</string>
+    <string name="verify_number">Verify %s</string>
+    <string name="waiting_for_verifying">Waiting to automatically detect an SMS sent to %s.</string>
 </resources>
