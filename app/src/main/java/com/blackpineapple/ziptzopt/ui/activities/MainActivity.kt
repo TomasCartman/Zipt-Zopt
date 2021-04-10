@@ -86,8 +86,4 @@ class MainActivity : AppCompatActivity() {
             }
         }.attach()
     }
-
-    companion object {
-        const val SIGN_IN_FLAG = 1
-    }
 }

@@ -97,6 +97,9 @@ class CodeVerificationActivity : AppCompatActivity() {
 
                     val user = task.result?.user
                     val firebaseAuth = Auth.firebaseAuth
+
+                    //user?.uid
+                    //user?.phoneNumber
                     firebaseAuth.updateCurrentUser(user)
 
                     startActivity(Intent(this, MainActivity::class.java))
