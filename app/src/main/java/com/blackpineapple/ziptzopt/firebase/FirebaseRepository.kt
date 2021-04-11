@@ -1,7 +1,5 @@
 package com.blackpineapple.ziptzopt.firebase
 
-import android.util.Log
-import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.blackpineapple.ziptzopt.data.model.User
 import com.google.firebase.database.*

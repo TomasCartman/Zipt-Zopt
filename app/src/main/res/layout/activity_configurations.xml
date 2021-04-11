@@ -90,7 +90,7 @@
                 android:id="@+id/first_divider"
                 android:layout_width="match_parent"
                 android:layout_height="0.5dp"
-                android:background="@android:color/darker_gray" />
+                android:background="@color/light_gray" />
 
             <LinearLayout
                 android:id="@+id/account_layout"
@@ -335,7 +335,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_marginStart="80dp"
-                android:background="@android:color/darker_gray"
+                android:background="@color/light_gray"
                 android:clickable="false"/>
 
             <LinearLayout

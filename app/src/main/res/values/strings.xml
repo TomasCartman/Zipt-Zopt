@@ -67,4 +67,7 @@
     <string name="next_text">Next</string>
     <string name="verify_number">Verify %s</string>
     <string name="waiting_for_verifying">Waiting to automatically detect an SMS sent to %s.</string>
+    <string name="cancel_text">Cancel</string>
+    <string name="save_text">Save</string>
+    <string name="insert_your_name_text">Insert your name</string>
 </resources>

@@ -9,6 +9,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.model.User
+import com.blackpineapple.ziptzopt.ui.dialogs.TextGetterDialog
 import com.blackpineapple.ziptzopt.viewmodel.ProfileActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
@@ -59,8 +60,10 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setClickHandle() {
         nameProfileLayout.setOnClickListener {
-            //val intent = Intent(this, ::class.java)
-            //startActivity(intent)
+            val fragment = TextGetterDialog.newInstance(getString(R.string.insert_your_name_text), 25)
+            supportFragmentManager.beginTransaction()
+                .add(fragment, "TextGetterFragment")
+                .commit()
         }
 
         messageProfileLayout.setOnClickListener {
