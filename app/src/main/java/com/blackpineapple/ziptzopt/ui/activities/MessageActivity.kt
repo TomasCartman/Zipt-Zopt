@@ -12,11 +12,13 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.model.User
+import com.blackpineapple.ziptzopt.ui.dialogs.TextGetterDialog
 import com.blackpineapple.ziptzopt.viewmodel.MessageActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
 class MessageActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var actualMessageLayout: LinearLayout
     private lateinit var actualMessageTextView: TextView
     private lateinit var messageActivityViewModel: MessageActivityViewModel
     private lateinit var userLiveData: LiveData<User>
@@ -75,6 +77,28 @@ class MessageActivity : AppCompatActivity() {
         tenthMessageLayout.setOnClickListener { setDefaultMessage(10) }
         val eleventhMessageLayout = findViewById<LinearLayout>(R.id.eleventh_message_layout)
         eleventhMessageLayout.setOnClickListener { setDefaultMessage(11) }
+
+        val actualMessageLayout = findViewById<LinearLayout>(R.id.actual_message_layout)
+        actualMessageLayout.setOnClickListener {
+            val textGetterDialog = TextGetterDialog.newInstance(
+                    getString(R.string.add_message),
+                    129,
+                    actualMessageTextView.text.toString()
+            )
+            textGetterDialog.show(supportFragmentManager, "TextGetterDialog")
+            textGetterDialog.setGetterDialogCallback(object : TextGetterDialog.GetterDialogCallback {
+                override fun onSaveButtonClick(s: String) {
+                    if(s.isNotBlank()) {
+                        actualMessageTextView.text = s
+                        setUserMessageOnFirebase()
+                    }
+                }
+
+                override fun onCancelButtonClick() {
+
+                }
+            })
+        }
     }
 
     private fun setUserMessageOnFirebase() {

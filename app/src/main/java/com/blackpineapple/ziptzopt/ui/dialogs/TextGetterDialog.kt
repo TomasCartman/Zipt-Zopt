@@ -1,6 +1,7 @@
 package com.blackpineapple.ziptzopt.ui.dialogs
 
 import android.app.Dialog
+import android.content.DialogInterface
 import android.os.Bundle
 import android.view.Gravity
 import android.view.ViewGroup
@@ -14,14 +15,26 @@ import com.blackpineapple.ziptzopt.R
 
 const val ARG_TITLE = "title"
 const val ARG_MAX_EDIT_TEXT_SIZE = "maxEditTextSize"
+const val ARG_DEFAULT_TEXT_EDIT_TEXT = "defaultTextEditText"
 
 class TextGetterDialog : DialogFragment() {
+    private lateinit var dialogCallback: GetterDialogCallback
+
+    interface GetterDialogCallback {
+        fun onSaveButtonClick(s: String)
+        fun onCancelButtonClick()
+    }
+
+    fun setGetterDialogCallback(dialogCallback: GetterDialogCallback) {
+        this@TextGetterDialog.dialogCallback = dialogCallback
+    }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
         return activity?.let {
             val builder = AlertDialog.Builder(it)
             var title = ""
             var maxEditTextSize = 0
+            var defaultTextEditText = ""
 
             setStyle(STYLE_NO_FRAME, R.style.AppTheme_Dialog_Custom)
             val layoutInflater = onGetLayoutInflater(savedInstanceState)
@@ -34,6 +47,19 @@ class TextGetterDialog : DialogFragment() {
             if (arguments != null) {
                 title = requireArguments().get(ARG_TITLE)  as String
                 maxEditTextSize = requireArguments().get(ARG_MAX_EDIT_TEXT_SIZE) as Int
+                defaultTextEditText = requireArguments().get(ARG_DEFAULT_TEXT_EDIT_TEXT) as String
+            }
+
+            editTextView.setText(defaultTextEditText)
+            
+            saveButton.setOnClickListener {
+                dialogCallback.onSaveButtonClick(editTextView.text.toString())
+                dismiss()
+            }
+
+            cancelButton.setOnClickListener {
+                dialogCallback.onCancelButtonClick()
+                dismiss()
             }
 
             titleTextView.text = title
@@ -54,10 +80,11 @@ class TextGetterDialog : DialogFragment() {
     }
 
     companion object {
-        fun newInstance(title: String, maxEditTextSize: Int): TextGetterDialog {
+        fun newInstance(title: String, maxEditTextSize: Int, defaultTextEditText: String): TextGetterDialog {
             val args = Bundle().apply {
                 putSerializable(ARG_TITLE, title)
                 putSerializable(ARG_MAX_EDIT_TEXT_SIZE, maxEditTextSize)
+                putSerializable(ARG_DEFAULT_TEXT_EDIT_TEXT, defaultTextEditText)
             }
             return TextGetterDialog().apply { arguments = args }
         }

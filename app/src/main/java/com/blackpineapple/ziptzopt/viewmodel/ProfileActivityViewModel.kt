@@ -21,4 +21,12 @@ class ProfileActivityViewModel : ViewModel() {
             userMutableLiveData = firebaseRepository.userMutableLiveData
         }
     }
+
+    fun setUserName(name: String) {
+        val user = userLiveData.value
+        if(user != null) {
+            user.name = name
+            firebaseRepository.setUserInfo(user)
+        }
+    }
 }

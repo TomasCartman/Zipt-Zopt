@@ -60,10 +60,24 @@ class ProfileActivity : AppCompatActivity() {
 
     private fun setClickHandle() {
         nameProfileLayout.setOnClickListener {
-            val fragment = TextGetterDialog.newInstance(getString(R.string.insert_your_name_text), 25)
-            supportFragmentManager.beginTransaction()
-                .add(fragment, "TextGetterFragment")
-                .commit()
+            val textGetterDialog = TextGetterDialog.newInstance(
+                    getString(R.string.insert_your_name_text),
+                    129,
+                    nameTextView.text.toString()
+            )
+            textGetterDialog.show(supportFragmentManager, "TextGetterDialog")
+            textGetterDialog.setGetterDialogCallback(object : TextGetterDialog.GetterDialogCallback {
+                override fun onSaveButtonClick(s: String) {
+                    if(s.isNotBlank()) {
+                        nameTextView.text = s
+                        profileActivityViewModel.setUserName(s)
+                    }
+                }
+
+                override fun onCancelButtonClick() {
+
+                }
+            })
         }
 
         messageProfileLayout.setOnClickListener {
