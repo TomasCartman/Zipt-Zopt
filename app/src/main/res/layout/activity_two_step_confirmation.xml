@@ -25,7 +25,7 @@
             android:layout_height="wrap_content"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/two_step_verification_text"
-            app:titleTextColor="@color/silver"/>
+            app:titleTextColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

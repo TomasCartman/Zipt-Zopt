@@ -19,7 +19,7 @@
             android:layout_height="wrap_content"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/profile_text"
-            app:titleTextColor="@color/silver"/>
+            app:titleTextColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -75,13 +75,13 @@
 
             <TextView
                 android:id="@+id/your_name"
+                style="@style/ZiptZopt.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintStart_toStartOf="@id/name_text"
                 app:layout_constraintTop_toBottomOf="@id/name_text"
                 android:fontFamily="@font/roboto"
-                android:text="@string/your_name_text"
-                android:textStyle="bold" />
+                android:text="@string/your_name_text" />
 
             <TextView
                 android:id="@+id/name_disclaimer"
@@ -150,7 +150,7 @@
 
             <TextView
                 android:id="@+id/your_message"
-                android:textStyle="bold"
+                style="@style/ZiptZopt.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:layout_constraintTop_toBottomOf="@id/message_text"
@@ -207,7 +207,7 @@
 
             <TextView
                 android:id="@+id/your_phone"
-                android:textStyle="bold"
+                style="@style/ZiptZopt.TextView"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"

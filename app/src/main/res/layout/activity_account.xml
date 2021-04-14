@@ -18,7 +18,7 @@
             android:layout_height="wrap_content"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/account_text"
-            app:titleTextColor="@color/silver"/>
+            app:titleTextColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

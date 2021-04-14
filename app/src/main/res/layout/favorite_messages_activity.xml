@@ -22,7 +22,7 @@
             app:menu="@menu/activity_favorite_messages_menu"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/favorite_messages_text"
-            app:titleTextColor="@color/silver"/>
+            app:titleTextColor="@color/white"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -9,13 +9,13 @@
 
     <TextView
         android:id="@+id/title_textView"
+        style="@style/ZiptZopt.TextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="16dp"
-        android:textColor="@android:color/primary_text_light"
         android:fontFamily="@font/roboto"
-        android:textSize="18dp"
+        android:textSize="16sp"
         android:textStyle="bold"
         tools:text="Title"
         app:layout_constraintStart_toStartOf="parent"
@@ -44,24 +44,24 @@
 
     <Button
         android:id="@+id/cancel_button"
+        style="@style/ZiptZopt.Buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:layout_marginBottom="8dp"
         android:background="@android:color/transparent"
         android:text="@string/cancel_text"
-        android:textColor="@color/teal_green"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/save_button"
         app:layout_constraintTop_toBottomOf="@+id/editText" />
 
     <Button
         android:id="@+id/save_button"
+        style="@style/ZiptZopt.Buttons"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/transparent"
         android:text="@string/save_text"
-        android:textColor="@color/teal_green"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/cancel_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
