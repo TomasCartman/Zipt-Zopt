@@ -11,11 +11,13 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
+import com.blackpineapple.ziptzopt.ui.activities.ContactsActivity
 import com.blackpineapple.ziptzopt.viewmodel.FragmentConversationsViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class FragmentChat(val toolbar: MaterialToolbar) : Fragment() {
+class FragmentChat(val toolbar: MaterialToolbar, val floatingActionButton: FloatingActionButton) : Fragment() {
     private lateinit var fragmentConversationsViewModel: FragmentConversationsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -32,12 +34,15 @@ class FragmentChat(val toolbar: MaterialToolbar) : Fragment() {
 
     override fun onResume() {
         super.onResume()
-        toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.fragment_chat_menu)
+
         setupToolbar()
+        setupFloatingActionButton()
     }
 
     private fun setupToolbar() {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.fragment_chat_menu)
+
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
         val searchView: SearchView = searchItem.actionView as SearchView
 
@@ -76,7 +81,16 @@ class FragmentChat(val toolbar: MaterialToolbar) : Fragment() {
         }
     }
 
+    private fun setupFloatingActionButton() {
+        floatingActionButton.setOnClickListener {
+            startActivity(Intent(context, ContactsActivity::class.java))
+        }
+    }
+
     companion object {
-        fun newInstance(toolbar: MaterialToolbar): FragmentChat = FragmentChat(toolbar)
+        fun newInstance(
+                toolbar: MaterialToolbar,
+                floatingActionButton: FloatingActionButton
+        ): FragmentChat = FragmentChat(toolbar, floatingActionButton)
     }
 }

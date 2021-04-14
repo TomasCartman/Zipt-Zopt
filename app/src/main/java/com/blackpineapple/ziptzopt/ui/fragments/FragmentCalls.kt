@@ -11,9 +11,10 @@ import androidx.fragment.app.Fragment
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class FragmentCalls(val toolbar: MaterialToolbar) : Fragment() {
+class FragmentCalls(val toolbar: MaterialToolbar, val floatingActionButton: FloatingActionButton) : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_calls, container, false)
@@ -67,6 +68,9 @@ class FragmentCalls(val toolbar: MaterialToolbar) : Fragment() {
     }
 
     companion object {
-        fun newInstance(toolbar: MaterialToolbar): FragmentCalls = FragmentCalls(toolbar)
+        fun newInstance(
+                toolbar: MaterialToolbar,
+                floatingActionButton: FloatingActionButton
+        ): FragmentCalls = FragmentCalls(toolbar, floatingActionButton)
     }
 }

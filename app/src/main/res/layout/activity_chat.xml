@@ -86,6 +86,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:src="@drawable/icon_mic"
+            android:backgroundTint="@color/teal_green"
             android:layout_marginEnd="4dp"/>
 
     </LinearLayout>

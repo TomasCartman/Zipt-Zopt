@@ -12,6 +12,7 @@ import com.blackpineapple.ziptzopt.ui.fragments.FragmentCalls
 import com.blackpineapple.ziptzopt.ui.fragments.FragmentChat
 import com.blackpineapple.ziptzopt.ui.fragments.FragmentStatus
 import com.google.android.material.appbar.MaterialToolbar
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
@@ -21,6 +22,7 @@ import com.google.firebase.auth.PhoneAuthOptions
 class MainActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager2
     private lateinit var toolbar: MaterialToolbar
+    private lateinit var floatingActionButton: FloatingActionButton
     private lateinit var firebaseAuth: FirebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
@@ -31,6 +33,7 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth = Auth.firebaseAuth
 
         toolbar = findViewById(R.id.chat_toolbar)
+        floatingActionButton = findViewById(R.id.floating_action_button)
 
         mViewPager = findViewById(R.id.pager)
         createViewPager()
@@ -69,9 +72,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun createViewPager() {
         val fragments = arrayListOf(
-                FragmentChat.newInstance(toolbar),
-                FragmentStatus.newInstance(toolbar),
-                FragmentCalls.newInstance(toolbar)
+                FragmentChat.newInstance(toolbar, floatingActionButton),
+                FragmentStatus.newInstance(toolbar, floatingActionButton),
+                FragmentCalls.newInstance(toolbar, floatingActionButton)
         )
 
         mViewPager.adapter = ViewPagerAdapter(supportFragmentManager, this.lifecycle, fragments)

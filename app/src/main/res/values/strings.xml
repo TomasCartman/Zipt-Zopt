@@ -20,7 +20,7 @@
     <string name="text_storage_configurations">Network usage, automatic download</string>
     <string name="help_configurations">Help</string>
     <string name="text_help_configurations">Help center, contact us, privacy policy</string>
-    <string name="invite_a_friend_configurations">Invite a friend</string>
+    <string name="invite_a_friend_text">Invite a friend</string>
     <string name="text_not_from">not from</string>
     <string name="facebook">FACEBOOK</string>
     <string name="favorite_messages_text">Favorite messages</string>
@@ -77,4 +77,8 @@
     <string name="silence_notifications_text">Silence notifications</string>
     <string name="wallpaper_text">Wallpaper</string>
     <string name="type_a_message_text">Type a message</string>
+    <string name="contacts_text">Contacts</string>
+    <string name="contacts_number">%s contacts</string>
+    <string name="update_text">Update</string>
+    <string name="help_text">Help</string>
 </resources>
