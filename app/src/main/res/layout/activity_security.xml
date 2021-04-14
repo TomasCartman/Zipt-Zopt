@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/linearLayout"
+    style="@style/ZiptZopt.Screens"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center|top">
@@ -23,7 +24,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="@string/security_text" />
+            app:title="@string/security_text"
+            app:titleTextColor="@color/silver"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

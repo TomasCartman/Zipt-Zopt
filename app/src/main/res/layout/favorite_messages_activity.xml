@@ -2,6 +2,7 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    style="@style/ZiptZopt.Screens"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.google.android.material.appbar.AppBarLayout
@@ -20,7 +21,8 @@
             android:layout_height="wrap_content"
             app:menu="@menu/activity_favorite_messages_menu"
             app:navigationIcon="?attr/homeAsUpIndicator"
-            app:title="@string/favorite_messages_text" />
+            app:title="@string/favorite_messages_text"
+            app:titleTextColor="@color/silver"/>
 
     </com.google.android.material.appbar.AppBarLayout>
 

@@ -1,11 +1,8 @@
 package com.blackpineapple.ziptzopt.ui.dialogs
 
 import android.app.Dialog
-import android.content.res.Resources
-import android.graphics.Rect
 import android.os.Bundle
 import android.view.Gravity
-import android.view.View
 import android.view.ViewGroup
 import android.view.WindowManager
 import android.widget.Button
@@ -55,7 +52,7 @@ class TextGetterDialog : DialogFragment() {
             dialog
         } ?: throw IllegalStateException("Activity cannot be null")
     }
-    
+
     companion object {
         fun newInstance(title: String, maxEditTextSize: Int): TextGetterDialog {
             val args = Bundle().apply {

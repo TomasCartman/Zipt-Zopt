@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.ZiptZopt" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_200</item>
-        <item name="colorPrimaryVariant">@color/purple_700</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">@color/night_green</item>
+        <item name="colorPrimaryVariant">@color/darker_night_green</item>
+        <item name="colorOnPrimary">@color/gray_font</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
         <item name="colorSecondaryVariant">@color/teal_200</item>
@@ -12,5 +12,28 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
+        <item name="android:textColor">@color/gray_font</item>
+
+        <item name="android:popupMenuStyle">@style/ZiptZopt.PopupMenu</item>
+    </style>
+
+    <style name="TabLayout" parent="Widget.MaterialComponents.TabLayout">
+        <item name="android:background">@color/night_green</item>
+        <item name="tabIndicatorColor">@color/turquoise</item>
+        <item name="tabSelectedTextColor">@color/turquoise</item>
+    </style>
+
+    <style name="ViewPager2" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/dark_green</item>
+    </style>
+
+    <style name="ZiptZopt.PopupMenu" parent="android:Widget.Holo.Light.ListPopupWindow">
+        <item name="android:colorBackground">@color/arsenic</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="ZiptZopt.Screens" parent="Theme.MaterialComponents.DayNight.NoActionBar">
+        <item name="android:background">@color/dark_green</item>
+        <item name="android:textColor">@color/gray_font</item>
     </style>
 </resources>
