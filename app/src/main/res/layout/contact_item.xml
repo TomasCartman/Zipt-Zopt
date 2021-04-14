@@ -7,8 +7,9 @@
     android:paddingVertical="16dp">
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:layout_width="64dp"
-        android:layout_height="64dp"
+        android:id="@+id/picture_imageView"
+        android:layout_width="42dp"
+        android:layout_height="42dp"
         android:layout_marginStart="8dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -23,6 +24,7 @@
         android:layout_gravity="center">
 
         <TextView
+            android:id="@+id/name_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             style="@style/ZiptZopt.TextView"
@@ -30,6 +32,7 @@
             android:text="@string/name_text" />
 
         <TextView
+            android:id="@+id/message_textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ellipsize="end"
