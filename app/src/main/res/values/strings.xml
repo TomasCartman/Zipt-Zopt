@@ -71,4 +71,10 @@
     <string name="save_text">Save</string>
     <string name="insert_your_name_text">Insert your name</string>
     <string name="add_message">Add message</string>
+    <string name="add_to_contacts_text">Add to contacts</string>
+    <string name="media_links_and_docs_text">Media, links and docs</string>
+    <string name="search_text">Search</string>
+    <string name="silence_notifications_text">Silence notifications</string>
+    <string name="wallpaper_text">Wallpaper</string>
+    <string name="type_a_message_text">Type a message</string>
 </resources>

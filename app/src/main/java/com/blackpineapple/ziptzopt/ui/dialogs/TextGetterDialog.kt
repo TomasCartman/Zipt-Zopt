@@ -51,7 +51,7 @@ class TextGetterDialog : DialogFragment() {
             }
 
             editTextView.setText(defaultTextEditText)
-            
+
             saveButton.setOnClickListener {
                 dialogCallback.onSaveButtonClick(editTextView.text.toString())
                 dismiss()

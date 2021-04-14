@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+
+    <item
+        android:id="@+id/video_call"
+        android:icon="@drawable/icon_videocam"
+        android:title="@string/search_name_menu"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/phone_call"
+        android:icon="@drawable/icon_phone_white"
+        android:title="@string/new_group_name_menu"
+        app:showAsAction="ifRoom" />
+
+    <item
+        android:id="@+id/add_to_contacts"
+        android:title="@string/add_to_contacts_text"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/media_link_docs"
+        android:title="@string/media_links_and_docs_text"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/search"
+        android:title="@string/search_text"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/silence_notifications"
+        android:title="@string/silence_notifications_text"
+        app:showAsAction="never" />
+
+    <item
+        android:id="@+id/wallpaper"
+        android:title="@string/wallpaper_text"
+        app:showAsAction="never" />
+</menu>
