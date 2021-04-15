@@ -1,5 +1,6 @@
 package com.blackpineapple.ziptzopt.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,7 +16,9 @@ class ProfileActivityViewModel : ViewModel() {
         get() = userMutableLiveData
 
     init {
+        Log.d("bb", "x")
         if(auth.currentUser != null) {
+            Log.d("cc", "y")
             firebaseRepository = FirebaseRepository(auth.currentUser.uid)
             firebaseRepository.getUserInfo()
             userMutableLiveData = firebaseRepository.userMutableLiveData
@@ -23,10 +26,6 @@ class ProfileActivityViewModel : ViewModel() {
     }
 
     fun setUserName(name: String) {
-        val user = userLiveData.value
-        if(user != null) {
-            user.name = name
-            firebaseRepository.setUserInfo(user)
-        }
+        firebaseRepository.setUserName(name)
     }
 }

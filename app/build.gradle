@@ -62,6 +62,9 @@ dependencies {
     /* androidx Preference */
     implementation 'androidx.preference:preference-ktx:1.1.1'
 
+    /* Kotlin coroutines */
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.1'
+
     /* Testing dependencies */
     testImplementation 'junit:junit:4.+'
     androidTestImplementation 'androidx.test.ext:junit:1.1.2'

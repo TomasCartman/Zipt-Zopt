@@ -29,6 +29,7 @@ class ConfigurationsActivity : AppCompatActivity() {
         configurationsActivityViewModel = ViewModelProvider
                 .NewInstanceFactory()
                 .create(ConfigurationsActivityViewModel::class.java)
+
         userLiveData = configurationsActivityViewModel.userLiveData
 
         nameTextView = findViewById(R.id.your_name_textView)

@@ -97,9 +97,6 @@ class CodeVerificationActivity : AppCompatActivity() {
         auth.signInWithCredential(credential)
             .addOnCompleteListener(this) { task ->
                 if (task.isSuccessful) {
-                    // Sign in success, update UI with the signed-in user's information
-                    Timber.d("signInWithCredential:success")
-
                     Toast.makeText(this, "Verification completed", Toast.LENGTH_SHORT).show()
 
                     val user = task.result?.user
@@ -107,10 +104,13 @@ class CodeVerificationActivity : AppCompatActivity() {
                     firebaseAuth.updateCurrentUser(user)
                     if(user != null) {
                         val firebaseRepository = FirebaseRepository(user.uid)
-                        firebaseRepository.setUserInfo(User(uid = user.uid, phoneNumber = user.phoneNumber))
+                        firebaseRepository.setUserPhoneNumber(user.phoneNumber)
+                        firebaseRepository.setUserUid(user.uid)
+                        firebaseRepository.setPhoneNumberToUid(user.phoneNumber, user.uid)
+                        firebaseRepository.setUserMessage("")
                     }
 
-                    startActivity(Intent(this, MainActivity::class.java))
+                    startActivity(Intent(this, CreateAccountActivity::class.java))
                     finish()
                 } else {
                     // Sign in failed, display a message and update the UI

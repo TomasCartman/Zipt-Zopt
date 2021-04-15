@@ -3,6 +3,8 @@ package com.blackpineapple.ziptzopt.ui.activities
 import android.Manifest
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.view.View
+import android.widget.ProgressBar
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -20,6 +22,7 @@ class ContactsActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var contactActivityViewModel: ContactsActivityViewModel
     private lateinit var contactsRecyclerView: RecyclerView
+    private lateinit var progressBar: ProgressBar
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -30,6 +33,8 @@ class ContactsActivity : AppCompatActivity() {
 
         toolbar = findViewById(R.id.configurations_toolbar)
         setupToolbar()
+
+        progressBar = findViewById(R.id.progressBar)
 
         contactsRecyclerView = findViewById(R.id.contacts_recyclerView)
         contactsRecyclerView.layoutManager = LinearLayoutManager(this@ContactsActivity)
@@ -60,7 +65,10 @@ class ContactsActivity : AppCompatActivity() {
 
     private fun setRecyclerViewAdapter() {
         val contactList = contactActivityViewModel.getContacts(this)
-        contactsRecyclerView.adapter = ContactsAdapter(contactList)
+        contactActivityViewModel.contactListLiveData.observe(this, {
+            contactsRecyclerView.adapter = ContactsAdapter(it)
+            progressBar.visibility = View.GONE
+        })
     }
 
     private fun setupToolbar() {

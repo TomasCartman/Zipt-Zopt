@@ -10,7 +10,7 @@ import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
 class ConfigurationsActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
     private lateinit var firebaseRepository: FirebaseRepository
-    private lateinit var userMutableLiveData: MutableLiveData<User>
+    private var userMutableLiveData: MutableLiveData<User> = MutableLiveData()
     val userLiveData: LiveData<User>
         get() = userMutableLiveData
 

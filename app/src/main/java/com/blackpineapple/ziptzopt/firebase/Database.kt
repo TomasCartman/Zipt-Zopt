@@ -8,11 +8,17 @@ import com.google.firebase.ktx.Firebase
 class Database {
     companion object {
         private const val REF_USERS = "users"
+        private const val REF_PHONE_NUMBER_TO_UID = "phoneNumberToUID"
         private val firebaseDatabase: FirebaseDatabase = Firebase.database
         private val usersReference: DatabaseReference = firebaseDatabase.reference.child(REF_USERS)
+        private val phoneNumberToUidReference: DatabaseReference = firebaseDatabase.reference.child(REF_PHONE_NUMBER_TO_UID)
 
         fun userReference(uid: String): DatabaseReference {
             return usersReference.child(uid)
+        }
+
+        fun phoneNumberToUidReference(): DatabaseReference {
+            return phoneNumberToUidReference
         }
     }
 }

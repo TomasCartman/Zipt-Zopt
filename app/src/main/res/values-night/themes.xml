@@ -48,6 +48,15 @@
         <item name="android:textColor">@color/white</item>
     </style>
 
+    <style name="ZiptZopt.Accent.Buttons" parent="Widget.MaterialComponents.Button">
+        <item name="android:backgroundTint">@color/turquoise</item>
+        <item name="android:textColor">@color/black</item>
+    </style>
+
+    <style name="ZiptZopt.Accent.TextView" parent="Widget.MaterialComponents.TextView">
+        <item name="android:textColor">@color/malachite</item>
+    </style>
+
     <style name="ShapeAppearance.App.SmallComponent" parent="ShapeAppearance.MaterialComponents.SmallComponent">
         <item name="cornerFamily">cut</item>
         <item name="cornerSize">4dp</item>

@@ -81,4 +81,7 @@
     <string name="contacts_number">%s contacts</string>
     <string name="update_text">Update</string>
     <string name="help_text">Help</string>
+    <string name="profile_data_text">Profile data</string>
+    <string name="create_account_mainText">Please provide your name and a profile photo (optional).</string>
+    <string name="name_length_too_short_message">Your name must have at least 1 char</string>
 </resources>

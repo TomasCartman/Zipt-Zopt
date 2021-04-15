@@ -3,6 +3,7 @@ package com.blackpineapple.ziptzopt.ui.dialogs
 import android.app.Dialog
 import android.content.DialogInterface
 import android.os.Bundle
+import android.text.InputFilter
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
@@ -51,6 +52,7 @@ class TextGetterDialog : DialogFragment() {
             }
 
             editTextView.setText(defaultTextEditText)
+            editTextView.filters = arrayOf(InputFilter.LengthFilter(maxEditTextSize))
 
             saveButton.setOnClickListener {
                 dialogCallback.onSaveButtonClick(editTextView.text.toString())

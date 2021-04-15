@@ -23,14 +23,12 @@ class MainActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager2
     private lateinit var toolbar: MaterialToolbar
     private lateinit var floatingActionButton: FloatingActionButton
-    private lateinit var firebaseAuth: FirebaseAuth
+    private val firebaseAuth: FirebaseAuth = Auth.firebaseAuth
     private lateinit var authStateListener: FirebaseAuth.AuthStateListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
-        firebaseAuth = Auth.firebaseAuth
 
         toolbar = findViewById(R.id.chat_toolbar)
         floatingActionButton = findViewById(R.id.floating_action_button)
@@ -54,11 +52,6 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    // Test only
-    override fun onDestroy() {
-        super.onDestroy()
-        firebaseAuth.signOut()
-    }
 
     override fun onResume() {
         super.onResume()

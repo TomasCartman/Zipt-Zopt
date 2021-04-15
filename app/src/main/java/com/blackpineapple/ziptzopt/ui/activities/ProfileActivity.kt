@@ -2,6 +2,7 @@ package com.blackpineapple.ziptzopt.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
 import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -37,6 +38,8 @@ class ProfileActivity : AppCompatActivity() {
 
         userLiveData = profileActivityViewModel.userLiveData
         userLiveData.observe(this, { user ->
+            Log.d("aa", user.toString())
+            Log.d("aa", "aa")
             if(user != null) {
                 nameTextView.text = user.name
                 messageTextView.text = user.message
@@ -62,7 +65,7 @@ class ProfileActivity : AppCompatActivity() {
         nameProfileLayout.setOnClickListener {
             val textGetterDialog = TextGetterDialog.newInstance(
                     getString(R.string.insert_your_name_text),
-                    129,
+                    25,
                     nameTextView.text.toString()
             )
             textGetterDialog.show(supportFragmentManager, "TextGetterDialog")
