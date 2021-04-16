@@ -26,32 +26,31 @@ class FirebaseRepository(private val uid: String) {
     private val phoneNumberToUidRef: DatabaseReference = Database.phoneNumberToUidReference()
     var userMutableLiveData = MutableLiveData<User>()
 
-    fun getUserInfo() {
-        userDatabaseRef.addValueEventListener(UserChangeListener())
-    }
+
+    fun getUserInfo() = userDatabaseRef.addValueEventListener(UserChangeListener())
+
 
     @Deprecated("This function has been deprecated. Use setUserName(name: String)," +
             " setUserMessage(message: String), setUserUid(uid: String) and" +
             " setUserPhoneNumber(phoneNumber: String) for the uses")
-    fun setUserInfo(user: User) {
-        userDatabaseRef.setValue(user.toMap())
-    }
+    fun setUserInfo(user: User) = userDatabaseRef.setValue(user.toMap())
 
-    fun setUserName(name: String) {
-        userDatabaseRef.updateChildren(mapOf(Pair<String, Any>(USER_CHILD_NAME, name)))
-    }
 
-    fun setUserMessage(message: String) {
-        userDatabaseRef.updateChildren(mapOf(Pair<String, Any>(USER_CHILD_MESSAGE, message)))
-    }
+    fun setUserName(name: String) = userDatabaseRef
+            .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_NAME, name)))
 
-    fun setUserUid(uid: String) {
-        userDatabaseRef.updateChildren(mapOf(Pair<String, Any>(USER_CHILD_UID, uid)))
-    }
 
-    fun setUserPhoneNumber(phoneNumber: String) {
-        userDatabaseRef.updateChildren(mapOf(Pair<String, Any>(USER_CHILD_PHONE_NUMBER, phoneNumber)))
-    }
+    fun setUserMessage(message: String) = userDatabaseRef
+            .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_MESSAGE, message)))
+
+
+    fun setUserUid(uid: String) = userDatabaseRef
+            .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_UID, uid)))
+
+
+    fun setUserPhoneNumber(phoneNumber: String) = userDatabaseRef
+            .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_PHONE_NUMBER, phoneNumber)))
+
 
      fun getUidFromPhoneNumber(phoneNumber: String) {
         phoneNumberToUidRef.addValueEventListener(object : ValueEventListener {

@@ -40,8 +40,11 @@ class ContactsActivityViewModel : ViewModel() {
             var i = 0
             if(userContacts.isNotEmpty() && firebaseNumbers.isNotEmpty()) {
                 for (contact in userContacts) {
-                    i += 1
-                    if(firebaseNumbers[contact.refectorNumber()] != null) {
+                    val contactNumber =
+                            if(contact.refectorNumber().length == 14) contact.refectorNumber()
+                            else contact.number
+
+                    if(firebaseNumbers[contactNumber] != null) {
                         contactsInZiptZopt.add(contact)
                     }
                 }
@@ -93,22 +96,11 @@ class ContactsActivityViewModel : ViewModel() {
             cursor?.close()
 
             userContacts = contactList
-            //contactListMutableLiveData.postValue(contactList)
-            //getFirebaseUsersNumber()
     }
 
     private fun getFirebaseUsersNumberAsync() = viewModelScope.async(Dispatchers.IO) {
             firebaseRepository.getPhoneNumberToUid { numberHashMap ->
                 firebaseNumbers = numberHashMap
-                0
-
-            /*
-                for (number in numberList) {
-                   firebaseNumberList.add(number)
-                }
-                firebaseNumbers = firebaseNumberList
-
-                 */
             }
         }
 }

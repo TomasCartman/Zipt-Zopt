@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -20,6 +21,7 @@
             app:menu="@menu/activity_contacts_menu"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/contacts_text"
+            tools:subtitle="0 Contacts"
             app:subtitle="@string/contacts_number"
             app:subtitleTextColor="@color/white"
             app:titleTextColor="@color/white"/>
@@ -28,6 +30,7 @@
 
     <ProgressBar
         android:id="@+id/progressBar"
+        android:elevation="1dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
@@ -39,6 +42,7 @@
         android:id="@+id/contacts_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        style="@style/ZiptZopt.Screens"
         app:layout_constraintTop_toBottomOf="@id/appBarLayout"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"

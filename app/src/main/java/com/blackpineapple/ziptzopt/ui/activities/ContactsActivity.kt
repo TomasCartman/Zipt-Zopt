@@ -66,7 +66,14 @@ class ContactsActivity : AppCompatActivity() {
         contactActivityViewModel.contactListLiveData.observe(this, {
             contactsRecyclerView.adapter = ContactsAdapter(it)
             progressBar.visibility = View.GONE
-            toolbar.subtitle = getString(R.string.contacts_number).format(it.size)
+            if(it.size != 1) {
+                toolbar.subtitle = getString(R.string.contacts_number)
+                        .format(it.size, getString(R.string.contacts_text_not_capitalized))
+            }
+            else {
+                toolbar.subtitle = getString(R.string.contacts_number)
+                        .format(it.size, getString(R.string.contact_text_not_capitalized))
+            }
         })
     }
 
@@ -74,7 +81,8 @@ class ContactsActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
-        toolbar.subtitle = getString(R.string.contacts_number).format(0)
+        toolbar.subtitle = getString(R.string.contacts_number)
+                .format(0, getString(R.string.contacts_text_not_capitalized))
     }
 
     companion object {
