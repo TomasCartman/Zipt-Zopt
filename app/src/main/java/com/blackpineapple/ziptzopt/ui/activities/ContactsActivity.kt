@@ -16,8 +16,6 @@ import com.blackpineapple.ziptzopt.data.adapters.ContactsAdapter
 import com.blackpineapple.ziptzopt.viewmodel.ContactsActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
 
-const val PERMISSION_CODE_READ_CONTACTS = 1
-
 class ContactsActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
     private lateinit var contactActivityViewModel: ContactsActivityViewModel
@@ -64,10 +62,11 @@ class ContactsActivity : AppCompatActivity() {
     }
 
     private fun setRecyclerViewAdapter() {
-        val contactList = contactActivityViewModel.getContacts(this)
+        contactActivityViewModel.getContacts(this)
         contactActivityViewModel.contactListLiveData.observe(this, {
             contactsRecyclerView.adapter = ContactsAdapter(it)
             progressBar.visibility = View.GONE
+            toolbar.subtitle = getString(R.string.contacts_number).format(it.size)
         })
     }
 
@@ -75,5 +74,10 @@ class ContactsActivity : AppCompatActivity() {
         toolbar.setNavigationOnClickListener {
             onBackPressed()
         }
+        toolbar.subtitle = getString(R.string.contacts_number).format(0)
+    }
+
+    companion object {
+        private const val PERMISSION_CODE_READ_CONTACTS = 1
     }
 }

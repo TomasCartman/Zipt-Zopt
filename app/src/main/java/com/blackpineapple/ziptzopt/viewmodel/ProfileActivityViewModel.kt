@@ -16,9 +16,7 @@ class ProfileActivityViewModel : ViewModel() {
         get() = userMutableLiveData
 
     init {
-        Log.d("bb", "x")
         if(auth.currentUser != null) {
-            Log.d("cc", "y")
             firebaseRepository = FirebaseRepository(auth.currentUser.uid)
             firebaseRepository.getUserInfo()
             userMutableLiveData = firebaseRepository.userMutableLiveData
