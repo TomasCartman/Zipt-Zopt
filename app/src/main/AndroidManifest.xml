@@ -29,6 +29,8 @@
         <activity android:name=".ui.activities.ContactsActivity"/>
         <activity android:name=".ui.activities.CreateAccountActivity"
             android:windowSoftInputMode="adjustResize" />
+        <activity android:name=".ui.activities.ChatActivity"
+            android:windowSoftInputMode="adjustResize" />
 
         <meta-data
             android:name="preloaded_fonts"

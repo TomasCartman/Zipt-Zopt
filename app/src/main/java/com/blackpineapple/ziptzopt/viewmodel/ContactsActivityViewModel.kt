@@ -3,6 +3,7 @@ package com.blackpineapple.ziptzopt.viewmodel
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
+import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -15,6 +16,7 @@ import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
+import kotlin.coroutines.CoroutineContext
 
 class ContactsActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
@@ -33,25 +35,30 @@ class ContactsActivityViewModel : ViewModel() {
 
     fun getContacts(context: Context) { // Delete 'i' variable after tests
         viewModelScope.launch(Dispatchers.Default) {
-            getFirebaseUsersNumberAsync().await()
+            getFirebaseUsersNumberAsync(context).await()
             getPhoneUserContactsAsync(context).await()
 
             val contactsInZiptZopt = mutableListOf<Contact>()
             var i = 0
             if(userContacts.isNotEmpty() && firebaseNumbers.isNotEmpty()) {
                 for (contact in userContacts) {
+                    i += 1
                     val contactNumber =
                             if(contact.refectorNumber().length == 14) contact.refectorNumber()
                             else contact.number
 
                     if(firebaseNumbers[contactNumber] != null) {
-                        contactsInZiptZopt.add(contact)
+                        if(contactsInZiptZopt.find { it.number == contact.number } == null) {
+                            contactsInZiptZopt.add(contact)
+                        }
                     }
                 }
             }
 
+
             withContext(Dispatchers.Main) {
                 Timber.d("i: $i")
+                Timber.d("$contactsInZiptZopt")
                 contactListMutableLiveData.postValue(contactsInZiptZopt)
             }
         }
@@ -98,9 +105,11 @@ class ContactsActivityViewModel : ViewModel() {
             userContacts = contactList
     }
 
-    private fun getFirebaseUsersNumberAsync() = viewModelScope.async(Dispatchers.IO) {
-            firebaseRepository.getPhoneNumberToUid { numberHashMap ->
-                firebaseNumbers = numberHashMap
-            }
+    private fun getFirebaseUsersNumberAsync(context: Context) = viewModelScope.async(Dispatchers.IO) {
+            firebaseRepository.getPhoneNumberToUid({ numberHashMap ->
+                    firebaseNumbers = numberHashMap
+            }, {
+                Toast.makeText(context, "You must have a internet connection", Toast.LENGTH_SHORT).show()
+            })
         }
 }

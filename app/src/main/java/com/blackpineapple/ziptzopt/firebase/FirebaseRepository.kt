@@ -10,16 +10,12 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.coroutineScope
 import timber.log.Timber
+import java.lang.Exception
 import java.lang.NullPointerException
 import java.util.*
 import java.util.stream.Collectors.toSet
 import java.util.stream.Stream
 import kotlin.collections.HashMap
-
-const val USER_CHILD_NAME = "name"
-const val USER_CHILD_MESSAGE = "message"
-const val USER_CHILD_UID = "uid"
-const val USER_CHILD_PHONE_NUMBER = "phoneNumber"
 
 class FirebaseRepository(private val uid: String) {
     private val userDatabaseRef: DatabaseReference = Database.userReference(uid)
@@ -65,17 +61,21 @@ class FirebaseRepository(private val uid: String) {
         })
     }
 
-     fun getPhoneNumberToUid(callback: (contactList: HashMap<String, String>) -> Unit) {
+     fun getPhoneNumberToUid(
+         successCallback: (contactList: HashMap<String, String>) -> Unit,
+         errorCallback: (exception: Exception) -> Unit)
+     {
         val hashMapPhoneUid = HashMap<String, String>()
         phoneNumberToUidRef.get().addOnSuccessListener {
             if(it.value != null) {
                 for (child in it.children.iterator()){
                     hashMapPhoneUid[child.key.toString()] = child.value.toString()
                 }
-                callback(hashMapPhoneUid)
+                successCallback(hashMapPhoneUid)
             }
         }.addOnFailureListener {
             Timber.e(it.stackTraceToString())
+            errorCallback(it)
         }
     }
 
@@ -98,5 +98,12 @@ class FirebaseRepository(private val uid: String) {
         override fun onCancelled(error: DatabaseError) {
             Timber.d(error.message)
         }
+    }
+
+    companion object {
+        const val USER_CHILD_NAME = "name"
+        const val USER_CHILD_MESSAGE = "message"
+        const val USER_CHILD_UID = "uid"
+        const val USER_CHILD_PHONE_NUMBER = "phoneNumber"
     }
 }

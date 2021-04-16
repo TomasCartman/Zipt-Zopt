@@ -1,22 +1,19 @@
 package com.blackpineapple.ziptzopt.ui.dialogs
 
 import android.app.Dialog
-import android.content.DialogInterface
+import android.content.Context
 import android.os.Bundle
 import android.text.InputFilter
 import android.view.Gravity
 import android.view.ViewGroup
 import android.view.WindowManager
+import android.view.inputmethod.InputMethodManager
 import android.widget.Button
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.DialogFragment
 import com.blackpineapple.ziptzopt.R
-
-const val ARG_TITLE = "title"
-const val ARG_MAX_EDIT_TEXT_SIZE = "maxEditTextSize"
-const val ARG_DEFAULT_TEXT_EDIT_TEXT = "defaultTextEditText"
 
 class TextGetterDialog : DialogFragment() {
     private lateinit var dialogCallback: GetterDialogCallback
@@ -53,6 +50,10 @@ class TextGetterDialog : DialogFragment() {
 
             editTextView.setText(defaultTextEditText)
             editTextView.filters = arrayOf(InputFilter.LengthFilter(maxEditTextSize))
+            editTextView.requestFocus()
+
+            val imm: InputMethodManager = it.getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+            imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY)
 
             saveButton.setOnClickListener {
                 dialogCallback.onSaveButtonClick(editTextView.text.toString())
@@ -82,6 +83,10 @@ class TextGetterDialog : DialogFragment() {
     }
 
     companion object {
+        const val ARG_TITLE = "title"
+        const val ARG_MAX_EDIT_TEXT_SIZE = "maxEditTextSize"
+        const val ARG_DEFAULT_TEXT_EDIT_TEXT = "defaultTextEditText"
+
         fun newInstance(title: String, maxEditTextSize: Int, defaultTextEditText: String): TextGetterDialog {
             val args = Bundle().apply {
                 putSerializable(ARG_TITLE, title)

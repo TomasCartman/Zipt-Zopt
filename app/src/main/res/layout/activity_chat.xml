@@ -2,7 +2,8 @@
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    xmlns:tools="http://schemas.android.com/tools">
 
     <com.google.android.material.appbar.AppBarLayout
         android:id="@+id/appBarLayout"
@@ -20,7 +21,7 @@
             app:menu="@menu/activity_chat_menu"
             app:navigationIcon="?attr/homeAsUpIndicator"
             app:title="@string/name_text"
-            app:subtitle="online"
+            tools:subtitle="online"
             app:subtitleTextColor="@color/white"
             app:titleTextColor="@color/white"/>
 
@@ -56,38 +57,47 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/filledTextField"
-            android:layout_weight="1"
+            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            app:boxBackgroundMode="filled"
             android:layout_marginStart="4dp"
-            android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
-            app:boxCornerRadiusBottomEnd="24dp"
-            app:boxCornerRadiusTopEnd="24dp"
-            app:boxCornerRadiusBottomStart="24dp"
-            app:boxCornerRadiusTopStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:layout_weight="1"
             app:boxBackgroundColor="@color/white"
+            app:boxBackgroundMode="filled"
+            app:boxCornerRadiusBottomEnd="24dp"
+            app:boxCornerRadiusBottomStart="24dp"
+            app:boxCornerRadiusTopEnd="24dp"
+            app:boxCornerRadiusTopStart="24dp"
             app:boxStrokeWidth="0dp"
-            app:startIconDrawable="@drawable/icon_emoticon"
-            app:endIconMode="custom"
+            app:boxStrokeWidthFocused="0dp"
             app:endIconDrawable="@drawable/icon_attach_file"
-            style="@style/Widget.MaterialComponents.TextInputLayout.FilledBox"
+            app:endIconMode="custom"
+            app:hintEnabled="false"
             android:hint="@string/type_a_message_text"
-            app:hintTextColor="@color/silver">
+            app:hintTextColor="@color/silver"
+            app:startIconDrawable="@drawable/icon_emoticon">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
+                android:layout_height="wrap_content"
+                android:inputType="textCapSentences"
+                android:paddingTop="8dp"
+                android:fontFamily="@font/roboto"
+                android:hint="@string/type_a_message_text" />
 
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:padding="0dp"
             android:src="@drawable/icon_mic"
             android:backgroundTint="@color/teal_green"
-            android:layout_marginEnd="4dp"/>
+            app:borderWidth="0dp"
+            android:layout_marginEnd="4dp"
+            android:layout_marginBottom="4dp"/>
 
     </LinearLayout>
 
