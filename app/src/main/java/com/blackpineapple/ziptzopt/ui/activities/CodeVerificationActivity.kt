@@ -2,16 +2,14 @@ package com.blackpineapple.ziptzopt.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.util.Log
 import android.widget.TextView
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.doOnTextChanged
 import com.alimuzaffar.lib.pin.PinEntryEditText
 import com.blackpineapple.ziptzopt.R
-import com.blackpineapple.ziptzopt.data.model.User
 import com.blackpineapple.ziptzopt.firebase.Auth
-import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -100,10 +98,9 @@ class CodeVerificationActivity : AppCompatActivity() {
                     Toast.makeText(this, "Verification completed", Toast.LENGTH_SHORT).show()
 
                     val user = task.result?.user
-                    val firebaseAuth = Auth.firebaseAuth
-                    firebaseAuth.updateCurrentUser(user)
+                    auth.updateCurrentUser(user)
                     if(user != null) {
-                        val firebaseRepository = FirebaseRepository(user.uid)
+                        val firebaseRepository = FirebaseRealtimeDatabaseImplementation(user.uid)
                         firebaseRepository.setUserPhoneNumber(user.phoneNumber)
                         firebaseRepository.setUserUid(user.uid)
                         firebaseRepository.setPhoneNumberToUid(user.phoneNumber, user.uid)

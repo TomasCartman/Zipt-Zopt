@@ -81,4 +81,16 @@
         <item name="android:src">@drawable/chat_background_image_night</item>
     </style>
 
+    <style name="ZiptZopt.BubbleIncoming" parent="">
+        <item name="android:backgroundTint">@color/arsenic</item>
+    </style>
+
+    <style name="ZiptZopt.BubbleOutgoing" parent="">
+        <item name="android:backgroundTint">@color/dark_slate_gray</item>
+    </style>
+
+    <style name="ZiptZopt.Text" parent="">
+        <item name="android:textColor">@color/white</item>
+    </style>
+
 </resources>

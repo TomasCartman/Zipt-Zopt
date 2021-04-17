@@ -70,4 +70,17 @@
     <style name="ZiptZopt.Chat.Background.Src" parent="">
         <item name="android:src">@drawable/chat_background_image_day</item>
     </style>
+
+    <style name="ZiptZopt.BubbleIncoming" parent="">
+        <item name="android:backgroundTint">@color/white</item>
+    </style>
+
+    <style name="ZiptZopt.BubbleOutgoing" parent="">
+        <item name="android:backgroundTint">@color/tea_green</item>
+    </style>
+
+    <style name="ZiptZopt.Text" parent="">
+        <item name="android:textColor">@color/black</item>
+    </style>
+
 </resources>

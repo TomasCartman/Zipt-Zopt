@@ -3,7 +3,9 @@ package com.blackpineapple.ziptzopt.ui.activities
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.MenuItem
 import android.widget.Toast
+import androidx.appcompat.widget.SearchView
 import androidx.viewpager2.widget.ViewPager2
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.adapters.ViewPagerAdapter
@@ -17,6 +19,7 @@ import com.google.android.material.tabs.TabLayout
 import com.google.android.material.tabs.TabLayoutMediator
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
+import timber.log.Timber
 
 
 class MainActivity : AppCompatActivity() {
@@ -37,6 +40,8 @@ class MainActivity : AppCompatActivity() {
         createViewPager()
 
         setupTabLayout()
+
+        setupFloatingActionButton()
 
         authStateListener = FirebaseAuth.AuthStateListener {
             val user = firebaseAuth.currentUser
@@ -63,16 +68,6 @@ class MainActivity : AppCompatActivity() {
         firebaseAuth.removeAuthStateListener(authStateListener)
     }
 
-    private fun createViewPager() {
-        val fragments = arrayListOf(
-                FragmentChat.newInstance(toolbar, floatingActionButton),
-                FragmentStatus.newInstance(toolbar, floatingActionButton),
-                FragmentCalls.newInstance(toolbar, floatingActionButton)
-        )
-
-        mViewPager.adapter = ViewPagerAdapter(supportFragmentManager, this.lifecycle, fragments)
-    }
-
     private fun setupTabLayout() {
         val tabLayout = findViewById<TabLayout>(R.id.tabLayout)
         TabLayoutMediator(tabLayout, mViewPager) { tab, position ->
@@ -88,5 +83,154 @@ class MainActivity : AppCompatActivity() {
                 }
             }
         }.attach()
+    }
+
+    private fun createViewPager() {
+        val fragments = arrayListOf(
+                FragmentChat(),
+                FragmentStatus(),
+                FragmentCalls()
+        )
+
+        mViewPager.adapter = ViewPagerAdapter(supportFragmentManager, this.lifecycle, fragments)
+    }
+
+    /* The lines below are just temporary, until i discover a better way to do it
+    *  The same applies to the classes FragmentChats, FragmentStatus and FragmentCalls */
+
+     fun setupToolbarChat() {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.fragment_chat_menu)
+
+        val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if(query != null) {
+                        Timber.i(query)
+                        // Does serch
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText.isNullOrEmpty()) {
+                        // Gets all the list if newText is empty
+                    }
+                    return true
+                }
+            })
+        }
+
+        setupToolbarClicksChat()
+    }
+
+    private fun setupToolbarClicksChat() {
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.configurations_menu -> {
+                    val intent = Intent(this, ConfigurationsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+     fun setupToolbarStatus() {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.fragment_status_menu)
+
+        val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if(query != null) {
+                        Timber.i(query)
+                        // Does serch
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText.isNullOrEmpty()) {
+                        // Gets all the list if newText is empty
+                    }
+                    return true
+                }
+            })
+        }
+
+        setupToolbarClicksStatus()
+    }
+
+    private fun setupToolbarClicksStatus() {
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.configurations_menu -> {
+                    val intent = Intent(this, ConfigurationsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+     fun setupToolbarCalls() {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.fragment_calls_menu)
+
+        val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
+        val searchView: SearchView = searchItem.actionView as SearchView
+
+        searchView.apply {
+            setOnQueryTextListener(object : SearchView.OnQueryTextListener {
+                override fun onQueryTextSubmit(query: String?): Boolean {
+                    if(query != null) {
+                        Timber.i(query)
+                        // Does serch
+                    }
+                    return true
+                }
+
+                override fun onQueryTextChange(newText: String?): Boolean {
+                    if(newText.isNullOrEmpty()) {
+                        // Gets all the list if newText is empty
+                    }
+                    return true
+                }
+            })
+        }
+
+        setupToolbarClicksCalls()
+    }
+
+     private fun setupToolbarClicksCalls() {
+        toolbar.setOnMenuItemClickListener { menuItem ->
+            when(menuItem.itemId) {
+                R.id.configurations_menu -> {
+                    val intent = Intent(this, ConfigurationsActivity::class.java)
+                    startActivity(intent)
+                    true
+                }
+                else -> false
+            }
+        }
+    }
+
+    private fun setupFloatingActionButton() {
+        floatingActionButton.setOnClickListener {
+            startActivity(Intent(this, ContactsActivity::class.java))
+        }
+    }
+
+    interface toolbarChanger {
+        fun setupToolbar()
     }
 }

@@ -10,17 +10,18 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.blackpineapple.ziptzopt.data.model.Contact
 import com.blackpineapple.ziptzopt.firebase.Auth
-import com.blackpineapple.ziptzopt.firebase.FirebaseRepository
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabase
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import timber.log.Timber
-import kotlin.coroutines.CoroutineContext
 
 class ContactsActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
-    private lateinit var firebaseRepository: FirebaseRepository
+    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImplementation
+    private lateinit var realtimeDatabase: FirebaseRealtimeDatabase
     private var userContacts = mutableListOf<Contact>()
     private var firebaseNumbers = hashMapOf<String, String>()
     private var contactListMutableLiveData = MutableLiveData<List<Contact>>()
@@ -29,14 +30,17 @@ class ContactsActivityViewModel : ViewModel() {
 
     init {
         if(auth.currentUser != null) {
-            firebaseRepository = FirebaseRepository(auth.currentUser.uid)
+            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
+            realtimeDatabase = firebaseRealtimeDatabaseImplementation
         }
     }
 
     fun getContacts(context: Context) { // Delete 'i' variable after tests
-        viewModelScope.launch(Dispatchers.Default) {
-            getFirebaseUsersNumberAsync(context).await()
+        viewModelScope.launch(Dispatchers.IO) {
+            //getFirebaseUsersNumberAsync(context).await()
             getPhoneUserContactsAsync(context).await()
+            val firebaseNumbers = getFirebaseUsersNumberSync()
+            Timber.d("firebaseNumbers: ${firebaseNumbers.toString()}")
 
             val contactsInZiptZopt = mutableListOf<Contact>()
             var i = 0
@@ -106,10 +110,32 @@ class ContactsActivityViewModel : ViewModel() {
     }
 
     private fun getFirebaseUsersNumberAsync(context: Context) = viewModelScope.async(Dispatchers.IO) {
-            firebaseRepository.getPhoneNumberToUid({ numberHashMap ->
+            firebaseRealtimeDatabaseImplementation.getPhoneNumberToUid({ numberHashMap ->
                     firebaseNumbers = numberHashMap
             }, {
                 Toast.makeText(context, "You must have a internet connection", Toast.LENGTH_SHORT).show()
             })
         }
+
+    /*
+    private fun getFirebaseUsersNumber(context: Context) {
+        viewModelScope.launch {
+            realtimeDatabase.getPhoneNumberToUid().collect {
+                when {
+                    it.isSuccess -> {
+
+                    }
+                    it.isFailure -> {
+                        Toast.makeText(context, "You must have a internet connection", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
+     */
+
+    private fun getFirebaseUsersNumberSync(): HashMap<String, String> {
+        return realtimeDatabase.getPhoneNumberToUidSync()
+    }
 }

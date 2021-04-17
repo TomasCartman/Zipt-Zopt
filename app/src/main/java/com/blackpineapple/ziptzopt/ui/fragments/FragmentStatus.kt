@@ -10,11 +10,12 @@ import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
+import com.blackpineapple.ziptzopt.ui.activities.MainActivity
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class FragmentStatus(val toolbar: MaterialToolbar, val floatingActionButton: FloatingActionButton) : Fragment() {
+class FragmentStatus : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_status, container, false)
@@ -23,12 +24,15 @@ class FragmentStatus(val toolbar: MaterialToolbar, val floatingActionButton: Flo
 
     override fun onResume() {
         super.onResume()
-        toolbar.menu.clear()
-        toolbar.inflateMenu(R.menu.fragment_status_menu)
-        setupToolbar()
+        //setupToolbar()
+        (activity as MainActivity).setupToolbarStatus()
     }
 
+    /*
     private fun setupToolbar() {
+        toolbar.menu.clear()
+        toolbar.inflateMenu(R.menu.fragment_status_menu)
+
         val searchItem: MenuItem = toolbar.menu.findItem(R.id.search_menu)
         val searchView: SearchView = searchItem.actionView as SearchView
 
@@ -73,4 +77,6 @@ class FragmentStatus(val toolbar: MaterialToolbar, val floatingActionButton: Flo
                 floatingActionButton: FloatingActionButton
         ): FragmentStatus = FragmentStatus(toolbar, floatingActionButton)
     }
+
+     */
 }

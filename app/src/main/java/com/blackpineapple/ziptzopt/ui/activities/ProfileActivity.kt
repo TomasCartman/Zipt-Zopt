@@ -13,6 +13,7 @@ import com.blackpineapple.ziptzopt.data.model.User
 import com.blackpineapple.ziptzopt.ui.dialogs.TextGetterDialog
 import com.blackpineapple.ziptzopt.viewmodel.ProfileActivityViewModel
 import com.google.android.material.appbar.MaterialToolbar
+import timber.log.Timber
 
 class ProfileActivity : AppCompatActivity() {
     private lateinit var toolbar: MaterialToolbar
@@ -22,7 +23,6 @@ class ProfileActivity : AppCompatActivity() {
     private lateinit var messageTextView: TextView
     private lateinit var phoneTextView: TextView
     private lateinit var profileActivityViewModel: ProfileActivityViewModel
-    private lateinit var userLiveData: LiveData<User>
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -36,11 +36,10 @@ class ProfileActivity : AppCompatActivity() {
         messageTextView = findViewById(R.id.your_message)
         phoneTextView = findViewById(R.id.your_phone)
 
-        userLiveData = profileActivityViewModel.userLiveData
-        userLiveData.observe(this, { user ->
-            Log.d("aa", user.toString())
-            Log.d("aa", "aa")
-            if(user != null) {
+        profileActivityViewModel.userLiveData.observe(this, { user ->
+            Timber.d(user.toString())
+            Timber.d("aa")
+            if (user != null) {
                 nameTextView.text = user.name
                 messageTextView.text = user.message
                 phoneTextView.text = user.phoneNumber

@@ -27,6 +27,7 @@
     <color name="dark_green">#101D25</color>
     <color name="gray_font">#6F787C</color>
     <color name="turquoise">#01AE98</color>
-    <color name="arsenic">#313C42</color>
+    <color name="arsenic">#212E36</color>
     <color name="silver">#C9CDCD</color>
+    <color name="dark_slate_gray">#054640</color>
 </resources>

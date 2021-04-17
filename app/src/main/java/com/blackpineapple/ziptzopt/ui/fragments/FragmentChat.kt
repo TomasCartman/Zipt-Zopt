@@ -12,12 +12,13 @@ import androidx.lifecycle.ViewModelProvider
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
 import com.blackpineapple.ziptzopt.ui.activities.ContactsActivity
+import com.blackpineapple.ziptzopt.ui.activities.MainActivity
 import com.blackpineapple.ziptzopt.viewmodel.FragmentConversationsViewModel
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import timber.log.Timber
 
-class FragmentChat(val toolbar: MaterialToolbar, val floatingActionButton: FloatingActionButton) : Fragment() {
+class FragmentChat : Fragment() {
     private lateinit var fragmentConversationsViewModel: FragmentConversationsViewModel
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -35,9 +36,10 @@ class FragmentChat(val toolbar: MaterialToolbar, val floatingActionButton: Float
     override fun onResume() {
         super.onResume()
 
-        setupToolbar()
-        setupFloatingActionButton()
+        (activity as MainActivity).setupToolbarChat()
+        //setupFloatingActionButton()
     }
+    /*
 
     private fun setupToolbar() {
         toolbar.menu.clear()
@@ -81,6 +83,8 @@ class FragmentChat(val toolbar: MaterialToolbar, val floatingActionButton: Float
         }
     }
 
+
+
     private fun setupFloatingActionButton() {
         floatingActionButton.setOnClickListener {
             startActivity(Intent(context, ContactsActivity::class.java))
@@ -88,9 +92,21 @@ class FragmentChat(val toolbar: MaterialToolbar, val floatingActionButton: Float
     }
 
     companion object {
+
+        fun newInstance2(
+                toolbar: MaterialToolbar,
+                floatingActionButton: FloatingActionButton
+        ): FragmentChat {
+            val a = FragmentChat()
+            val args = Bundle()
+            args.putSerializable("a", toolbar)
+        }
+
         fun newInstance(
                 toolbar: MaterialToolbar,
                 floatingActionButton: FloatingActionButton
         ): FragmentChat = FragmentChat(toolbar, floatingActionButton)
     }
+
+ */
 }

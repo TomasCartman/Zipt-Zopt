@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:lineSpacingExtra="2dp"
+        style="@style/ZiptZopt.BubbleOutgoing"
         android:textSize="13.5sp"
         android:paddingStart="10dp"
         android:paddingTop="4dp"
@@ -29,7 +30,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:elevation="2dp"
-            android:textColor="@color/black"
+            style="@style/ZiptZopt.Text"
             tools:text="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed sit amet eleifend ligula. Aenean lobortis malesuada ex, quis finibus libero semper vitae. Donec at lacus vel felis hendrerit tempus. Donec rhoncus, mi ut pretium interdum, velit nibh venenatis tortor, non tempus ante ligula quis ipsum. Suspendisse potenti. Praesent eu varius sapien. Nulla fringilla tempor diam. Ut auctor ipsum id rhoncus lacinia. Praesent efficitur mollis elit ut volutpat."/>
 
         <LinearLayout
