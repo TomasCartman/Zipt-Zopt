@@ -24,17 +24,11 @@ class MessageActivityViewModel : ViewModel() {
         }
     }
 
-    fun setUserMessage(message: String) {
-        val user = userLiveData.value
-        if(user != null) {
-            user.message = message
-            firebaseRepository.setUserInfo(user)
-        }
-    }
+    fun setUserMessage(message: String) = firebaseRepository.setUserMessage(message)
 
-    fun setMessageSelectorNumber(context: Context, num: Int) {
+    fun setMessageSelectorNumber(context: Context, num: Int) =
         QueryPreferences.setWhichMessageSelector(context, num)
-    }
 
-    fun getMessageSelectorNumber(context: Context): Int = QueryPreferences.getWhichMessageSelector(context)
+    fun getMessageSelectorNumber(context: Context): Int =
+        QueryPreferences.getWhichMessageSelector(context)
 }

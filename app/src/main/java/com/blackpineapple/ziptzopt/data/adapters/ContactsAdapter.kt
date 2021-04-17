@@ -27,6 +27,7 @@ class ContactsAdapter(private val contactList: List<Contact>) : RecyclerView.Ada
         if (contact.message.isBlank()) holder.messageTextView.visibility = View.GONE
         else holder.messageTextView.text = contact.message
         holder.setPicture(contact.picture)
+        holder.setNumber(contact.number)
     }
 
     override fun getItemCount(): Int = contactList.size
@@ -36,6 +37,7 @@ class ContactsAdapter(private val contactList: List<Contact>) : RecyclerView.Ada
         val messageTextView: TextView = itemView.findViewById(R.id.message_textView)
         private val picture: CircleImageView = itemView.findViewById(R.id.picture_imageView)
         private var pictureLink: String = ""
+        private var phoneNumber: String = ""
 
         init {
             itemView.setOnClickListener(this)
@@ -49,10 +51,14 @@ class ContactsAdapter(private val contactList: List<Contact>) : RecyclerView.Ada
             }
         }
 
+        fun setNumber(phoneNumber: String) {
+            this.phoneNumber = phoneNumber
+        }
+
         override fun onClick(v: View?) {
             val intent = Intent(itemView.context, ChatActivity::class.java)
             intent.putExtra(ChatActivity.ARG_NAME, nameTextView.text)
-            intent.putExtra(ChatActivity.ARG_NUMBER, messageTextView.text)
+            intent.putExtra(ChatActivity.ARG_NUMBER, phoneNumber)
             intent.putExtra(ChatActivity.ARG_PICTURE, pictureLink)
             itemView.context.startActivity(intent)
         }

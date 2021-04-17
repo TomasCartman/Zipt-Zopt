@@ -24,6 +24,8 @@ class ChatActivity : AppCompatActivity() {
         chatActivityViewModel = ViewModelProvider
             .NewInstanceFactory().create(ChatActivityViewModel::class.java)
 
+        setupViewModel()
+
         toolbar = findViewById(R.id.configurations_toolbar)
         setupToolbar()
 
@@ -37,6 +39,13 @@ class ChatActivity : AppCompatActivity() {
             onBackPressed()
         }
         toolbar.title = intent.getStringExtra(ARG_NAME)
+    }
+
+    private fun setupViewModel() {
+        val friendNumber = intent.getStringExtra(ARG_NUMBER)
+        if (friendNumber != null) {
+            chatActivityViewModel.setFriendNumber(friendNumber)
+        }
     }
 
     private fun setupSendMessageEditText() {

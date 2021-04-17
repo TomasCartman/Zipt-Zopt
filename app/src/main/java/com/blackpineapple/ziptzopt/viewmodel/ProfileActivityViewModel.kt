@@ -1,6 +1,5 @@
 package com.blackpineapple.ziptzopt.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +22,5 @@ class ProfileActivityViewModel : ViewModel() {
         }
     }
 
-    fun setUserName(name: String) {
-        firebaseRepository.setUserName(name)
-    }
+    fun setUserName(name: String) = firebaseRepository.setUserName(name)
 }

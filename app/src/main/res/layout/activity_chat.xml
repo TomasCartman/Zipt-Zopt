@@ -27,30 +27,11 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <TextView
-        android:elevation="1dp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bg_speech_bubble_outgoing"
-        android:lineSpacingExtra="2dp"
-        android:textSize="13.5sp"
-        android:paddingLeft="10dp"
-        android:paddingTop="4dp"
-        android:paddingRight="20dp"
-        android:paddingBottom="10dp"
-        android:textColor="@color/black"
-        android:text="ASuahssausauhsudhaduisadhs"/>
-
-
     <ImageView
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/chat_background_image"
+        style="@style/ZiptZopt.Chat.Background.Src"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -92,11 +73,13 @@
             app:boxStrokeWidth="0dp"
             app:boxStrokeWidthFocused="0dp"
             app:endIconDrawable="@drawable/icon_attach_file"
+            app:endIconTint="@color/gray"
             app:endIconMode="custom"
             app:hintEnabled="false"
             android:hint="@string/type_a_message_text"
             app:hintTextColor="@color/silver"
-            app:startIconDrawable="@drawable/icon_emoticon">
+            app:startIconDrawable="@drawable/icon_emoticon"
+            app:startIconTint="@color/gray">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/send_message_editText"

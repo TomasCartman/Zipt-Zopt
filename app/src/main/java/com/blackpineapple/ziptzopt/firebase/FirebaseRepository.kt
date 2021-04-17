@@ -26,12 +26,6 @@ class FirebaseRepository(private val uid: String) {
     fun getUserInfo() = userDatabaseRef.addValueEventListener(UserChangeListener())
 
 
-    @Deprecated("This function has been deprecated. Use setUserName(name: String)," +
-            " setUserMessage(message: String), setUserUid(uid: String) and" +
-            " setUserPhoneNumber(phoneNumber: String) for the uses")
-    fun setUserInfo(user: User) = userDatabaseRef.setValue(user.toMap())
-
-
     fun setUserName(name: String) = userDatabaseRef
             .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_NAME, name)))
 
@@ -62,9 +56,9 @@ class FirebaseRepository(private val uid: String) {
     }
 
      fun getPhoneNumberToUid(
-         successCallback: (contactList: HashMap<String, String>) -> Unit,
-         errorCallback: (exception: Exception) -> Unit)
-     {
+         successCallback: (contactHashMap: HashMap<String, String>) -> Unit,
+         errorCallback: (exception: Exception) -> Unit
+     ) {
         val hashMapPhoneUid = HashMap<String, String>()
         phoneNumberToUidRef.get().addOnSuccessListener {
             if(it.value != null) {
@@ -83,6 +77,49 @@ class FirebaseRepository(private val uid: String) {
         val hashMap = HashMap<String, Any>()
         hashMap[phoneNumber] = uid
         phoneNumberToUidRef.updateChildren(hashMap)
+    }
+
+    fun addNewFriendPrivateChatToUser(phoneNumber: String) {
+        val ref = Database.usersToChatContacts(uid)
+        val hashMap = HashMap<String, Any>()
+        hashMap[phoneNumber] = ref.push().key.toString()
+        Database.usersToChatContacts(uid).updateChildren(hashMap)
+    }
+
+    fun getAllUserPrivateChatsFriends(
+        successCallback: (privateChatsFriendsHashMap: HashMap<String, String>) -> Unit,
+        errorCallback: (exception: Exception) -> Unit
+    ) {
+        val ref = Database.usersToChatContacts(uid)
+        val hashMap = HashMap<String, String>()
+        ref.get().addOnSuccessListener {
+            if (it != null) {
+                for (child in it.children.iterator()) {
+                    hashMap[child.key.toString()] = child.value.toString()
+                }
+                successCallback(hashMap)
+            }
+        }.addOnFailureListener {
+            Timber.e(it.stackTraceToString())
+            errorCallback(it)
+        }
+    }
+
+    fun getUserPrivateChatFriend(
+        phoneNumber: String,
+        successCallback: (privateChatsFriendsHashMap: HashMap<String, String>) -> Unit,
+        errorCallback: (exception: Exception) -> Unit
+    ) {
+        val ref = Database.usersToChatContacts(uid).child(phoneNumber)
+        ref.get().addOnSuccessListener {
+            val hashMap = HashMap<String, String>()
+            if(it != null) {
+                Timber.d(it.toString())
+            }
+        }.addOnFailureListener {
+            Timber.e(it.stackTraceToString())
+            errorCallback(it)
+        }
     }
 
     private inner class UserChangeListener : ValueEventListener {
