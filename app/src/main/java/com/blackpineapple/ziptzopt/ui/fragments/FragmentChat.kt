@@ -1,35 +1,44 @@
 package com.blackpineapple.ziptzopt.ui.fragments
 
-import android.content.Intent
 import android.os.Bundle
 import android.view.LayoutInflater
-import android.view.MenuItem
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.widget.SearchView
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.blackpineapple.ziptzopt.R
-import com.blackpineapple.ziptzopt.ui.activities.ConfigurationsActivity
-import com.blackpineapple.ziptzopt.ui.activities.ContactsActivity
+import com.blackpineapple.ziptzopt.data.adapters.ChatFragmentAdapter
 import com.blackpineapple.ziptzopt.ui.activities.MainActivity
-import com.blackpineapple.ziptzopt.viewmodel.FragmentConversationsViewModel
-import com.google.android.material.appbar.MaterialToolbar
-import com.google.android.material.floatingactionbutton.FloatingActionButton
-import timber.log.Timber
+import com.blackpineapple.ziptzopt.viewmodel.FragmentChatViewModel
 
 class FragmentChat : Fragment() {
-    private lateinit var fragmentConversationsViewModel: FragmentConversationsViewModel
+    private lateinit var fragmentChatViewModel: FragmentChatViewModel
+    private lateinit var chatRecyclerView: RecyclerView
+    private lateinit var chatFragmentAdapter: ChatFragmentAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        fragmentConversationsViewModel = ViewModelProvider.NewInstanceFactory()
-            .create(FragmentConversationsViewModel::class.java)
+        fragmentChatViewModel = ViewModelProvider.NewInstanceFactory()
+            .create(FragmentChatViewModel::class.java)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_chat, container, false)
+
+        chatRecyclerView = view.findViewById(R.id.chat_recyclerView)
+        chatFragmentAdapter = ChatFragmentAdapter()
+        chatRecyclerView.apply {
+            layoutManager = LinearLayoutManager(context)
+            adapter = chatFragmentAdapter
+        }
+
+        fragmentChatViewModel.messagesLiveData.observe(viewLifecycleOwner, {
+            chatFragmentAdapter.submitList(it)
+        })
+
         return view
     }
 

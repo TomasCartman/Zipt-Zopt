@@ -12,7 +12,7 @@ class Database {
         private const val REF_PHONE_NUMBER_TO_UID = "phoneNumberToUID"
         private const val REF_USERS_TO_CHAT_CONTACTS = "usersToChatContacts"
         private const val REF_PRIVATE_CHATS = "privateChats"
-        private const val REF_PRIVATE_CHATS_METADATA = "privateChatsMetadata"
+        private const val REF_PRIVATE_CHATS_METADATA = "privateChatMetadata"
         private const val REF_GROUP_METADATA = "groupMetadata"
         private const val REF_GROUP_MESSAGES = "groupsMessages"
         private const val REF_GROUP_HAS_SEEN = "groupsHasSeen"
@@ -32,6 +32,9 @@ class Database {
         private val groupMessages: DatabaseReference = firebaseDatabase.reference.child(REF_GROUP_MESSAGES)
         private val groupHasSeen: DatabaseReference = firebaseDatabase.reference.child(REF_GROUP_HAS_SEEN)
 
+        fun getDatabaseRef(): DatabaseReference = firebaseDatabase.reference.root
+
+        fun getServerTimestamp(): Map<String, Any> = ServerValue.TIMESTAMP
 
         fun userRef(uid: String): DatabaseReference = usersReference.child(uid)
 
@@ -43,6 +46,6 @@ class Database {
 
         fun privateChatsRef(pushKey: String): DatabaseReference = privateChats.child(pushKey)
 
-        fun getServerTimestamp(): Map<String, Any> = ServerValue.TIMESTAMP
+        fun privateChatsMetadata(): DatabaseReference = privateChatsMetadata
     }
 }

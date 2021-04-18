@@ -15,7 +15,7 @@
         android:contentDescription="@string/conversation_image_content_description"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        tools:src="@tools:sample/avatars" />
+        android:src="@drawable/icon_message" />
 
     <TextView
         android:id="@+id/conversation_contact_name"
@@ -23,35 +23,44 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:maxLength="20"
+        android:ellipsize="end"
         app:layout_constraintStart_toEndOf="@+id/conversation_contact_image_view"
         app:layout_constraintTop_toTopOf="@+id/conversation_contact_image_view"
         tools:text="Contact Name" />
 
     <TextView
-        android:id="@+id/conversation_last_message"
+        android:id="@+id/chat_last_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
+        android:maxLines="1"
+        android:maxLength="40"
+        android:ellipsize="end"
         app:layout_constraintStart_toStartOf="@+id/conversation_contact_name"
         app:layout_constraintTop_toBottomOf="@+id/conversation_contact_name"
         tools:text="This was a last message example" />
 
     <TextView
-        android:id="@+id/conversation_last_time_message"
+        android:id="@+id/chat_last_time_message"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="8dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="@+id/conversation_contact_name"
+        android:maxLines="1"
+        android:maxLength="10"
+        android:ellipsize="end"
         tools:text="20:33" />
 
     <View
         android:layout_width="0dp"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="8dp"
         android:background="@android:color/darker_gray"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/conversation_last_message"
-        app:layout_constraintTop_toBottomOf="@+id/conversation_last_message" />
+        app:layout_constraintStart_toStartOf="@+id/chat_last_message"
+        app:layout_constraintTop_toBottomOf="@+id/chat_last_message" />
 </androidx.constraintlayout.widget.ConstraintLayout>

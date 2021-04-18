@@ -200,7 +200,6 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
 
     @ExperimentalCoroutinesApi
     override fun getAllUserPrivateChatFriends() = callbackFlow<Result<HashMap<String, String>>> {
-
         val hashMap = HashMap<String, String>()
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -223,20 +222,23 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
     }
 
     override fun sendMessage(messageText: String, pushKey: String) {
-        val ref = Database.privateChatsRef(pushKey)
+        val refPrivateChat = Database.privateChatsRef(pushKey)
         val timestamp = Database.getServerTimestamp()
-        val hashMap = HashMap<String, Any>()
         val messageHashMap = HashMap<String, Any>()
-        val messageId = ref.push().key.toString()
+        val messageId = refPrivateChat.push().key.toString()
 
         messageHashMap["messageId"] = messageId
         messageHashMap["sender"] = uid
         messageHashMap["hasSeen"] = false
         messageHashMap["messageText"] = messageText
         messageHashMap["timestamp"] = timestamp
-        hashMap[messageId] = messageHashMap
 
-        ref.updateChildren(hashMap)
+        val updateChild = hashMapOf<String, Any>(
+            "/privateChats/$pushKey/$messageId" to messageHashMap,
+            "/privateChatMetadata/$pushKey" to messageId
+        )
+
+        Database.getDatabaseRef().updateChildren(updateChild)
     }
 
     override suspend fun getUserContactNumberToPushKey(phoneNumber: String): String? {
@@ -245,6 +247,36 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
             return request.value.toString()
         }
         return null
+    }
+
+    override suspend fun getMessageInPrivateChat(chatPushKey: String, messagePushKey: String): Message? {
+        val request = Database.privateChatsRef(chatPushKey).child(messagePushKey).get().await()
+        if(request.hasChildren()) {
+            return request.getValue(Message::class.java)
+        }
+        return null
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun getPrivateChatsMetadata(pushKey: String) = callbackFlow<Result<HashMap<String, String>>> {
+        val ref = Database.privateChatsMetadata().child(pushKey)
+        val hashMap = HashMap<String, String>()
+        val eventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                Timber.d(snapshot.toString())
+                hashMap[snapshot.key.toString()] = snapshot.value.toString()
+                this@callbackFlow.sendBlocking(Result.success(hashMap))
+            }
+
+            override fun onCancelled(error: DatabaseError) {
+                this@callbackFlow.sendBlocking(Result.failure(error.toException()))
+            }
+        }
+        ref.addValueEventListener(eventListener)
+
+        awaitClose {
+            ref.removeEventListener(eventListener)
+        }
     }
 
     @ExperimentalCoroutinesApi

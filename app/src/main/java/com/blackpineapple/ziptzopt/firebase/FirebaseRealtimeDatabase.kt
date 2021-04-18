@@ -35,4 +35,8 @@ interface FirebaseRealtimeDatabase {
     fun addNewFriendPrivateChatToUser(phoneNumber: String, pushKey: String, friendUid: String)
 
     fun getAllUserFriendPhoneNumbersToUidSync(): HashMap<String, String>
+
+    fun getPrivateChatsMetadata(pushKey: String): Flow<Result<HashMap<String, String>>>
+
+    suspend fun getMessageInPrivateChat(chatPushKey: String, messagePushKey: String): Message?
 }
