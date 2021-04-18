@@ -9,21 +9,24 @@ import com.google.firebase.database.*
 import kotlinx.coroutines.*
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.lang.Exception
 import java.lang.NullPointerException
-import java.sql.Timestamp
 import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.collections.HashMap
 
-class FirebaseRealtimeDatabaseImplementation(private val uid: String) : FirebaseRealtimeDatabase {
+class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDatabase {
     private val userDatabaseRef: DatabaseReference = Database.userReference(uid)
     private val phoneNumberToUidRef: DatabaseReference = Database.phoneNumberToUidReference()
     var userMutableLiveData = MutableLiveData<User>()
+
+
+    init {
+
+    }
 
     override fun getUserInfo() {
         userDatabaseRef.addValueEventListener(UserChangeListener())
@@ -204,19 +207,23 @@ class FirebaseRealtimeDatabaseImplementation(private val uid: String) : Firebase
         }
     }
 
-    override fun sendMessage(message: String, pushKey: String) {
+    override fun sendMessage(messageText: String, pushKey: String) {
         val ref = Database.privateChats(pushKey)
+        val timestamp = Database.getServerTimestamp()
         val hashMap = HashMap<String, Any>()
         val messageId = ref.push().key.toString()
+
         val message = Message(
                 messageId = messageId,
                 sender = uid,
-                timestamp = 1412121L,
                 hasSeen = false,
-                messageText = message
+                messageText = messageText
         )
         hashMap[messageId] = message
-        ref.updateChildren(hashMap)
+
+        ref.updateChildren(hashMap).continueWith {
+            ref.child(messageId).child("timestamp").setValue(timestamp)
+        }
     }
 
     override suspend fun getUserContactNumberToPushKey(phoneNumber: String): String? {
@@ -265,9 +272,17 @@ class FirebaseRealtimeDatabaseImplementation(private val uid: String) : Firebase
     }
 
     companion object {
+        private var INSTANCE: FirebaseRealtimeDatabaseImpl? = null
         const val USER_CHILD_NAME = "name"
         const val USER_CHILD_MESSAGE = "message"
         const val USER_CHILD_UID = "uid"
         const val USER_CHILD_PHONE_NUMBER = "phoneNumber"
+
+        fun getInstance(uid: String): FirebaseRealtimeDatabaseImpl {
+            if (INSTANCE == null) {
+                INSTANCE = FirebaseRealtimeDatabaseImpl(uid)
+            }
+            return INSTANCE as FirebaseRealtimeDatabaseImpl
+        }
     }
 }

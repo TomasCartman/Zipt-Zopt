@@ -11,11 +11,11 @@ import androidx.lifecycle.LiveData
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.data.model.User
 import com.blackpineapple.ziptzopt.firebase.Auth
-import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImpl
 
 class CreateAccountActivity : AppCompatActivity() {
     private val auth = Auth.firebaseAuth
-    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImplementation
+    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImpl
     private lateinit var userLiveData: LiveData<User>
     private lateinit var nameEditText: EditText
     private lateinit var nextButton: Button
@@ -33,7 +33,7 @@ class CreateAccountActivity : AppCompatActivity() {
         }
 
         if(auth.currentUser != null) {
-            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
+            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
             firebaseRealtimeDatabaseImplementation.getUserInfo()
             userLiveData = firebaseRealtimeDatabaseImplementation.userMutableLiveData
             userLiveData.observe(this, { user ->

@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!-- This file is now for visualisation-only -->
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -12,8 +13,6 @@
         android:layout_marginVertical="8dp"
         android:lineSpacingExtra="2dp"
         android:textSize="13.5sp"
-        android:paddingTop="4dp"
-        android:paddingBottom="10dp"
         android:textColor="@color/black"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintWidth_max="wrap"
@@ -21,8 +20,6 @@
         android:orientation="vertical"
 
         style="@style/ZiptZopt.BubbleIncoming"
-        android:paddingStart="20dp"
-        android:paddingEnd="10dp"
         app:layout_constraintStart_toStartOf="parent"
         android:background="@drawable/bg_speech_bubble_incoming">
 

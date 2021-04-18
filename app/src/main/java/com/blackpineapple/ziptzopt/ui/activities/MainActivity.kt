@@ -21,7 +21,6 @@ import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.PhoneAuthOptions
 import timber.log.Timber
 
-
 class MainActivity : AppCompatActivity() {
     private lateinit var mViewPager: ViewPager2
     private lateinit var toolbar: MaterialToolbar
@@ -47,7 +46,6 @@ class MainActivity : AppCompatActivity() {
             val user = firebaseAuth.currentUser
             if(user != null) {
                 //User is signed in
-                Toast.makeText(this, "You are signed in", Toast.LENGTH_SHORT).show()
                 //firebaseAuth.signOut()
             } else {
                 Toast.makeText(this, "You are not signed in", Toast.LENGTH_SHORT).show()

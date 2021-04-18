@@ -83,10 +83,24 @@
 
     <style name="ZiptZopt.BubbleIncoming" parent="">
         <item name="android:backgroundTint">@color/arsenic</item>
+        <item name="android:paddingStart">20dp</item>
+        <item name="android:paddingEnd">10dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">13.5dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ZiptZopt.BubbleOutgoing" parent="">
         <item name="android:backgroundTint">@color/dark_slate_gray</item>
+        <item name="android:paddingStart">10dp</item>
+        <item name="android:paddingEnd">20dp</item>
+        <item name="android:paddingTop">4dp</item>
+        <item name="android:paddingBottom">10dp</item>
+        <item name="android:textSize">13.5dp</item>
+        <item name="android:lineSpacingExtra">2dp</item>
+        <item name="android:textColor">@color/black</item>
     </style>
 
     <style name="ZiptZopt.Text" parent="">

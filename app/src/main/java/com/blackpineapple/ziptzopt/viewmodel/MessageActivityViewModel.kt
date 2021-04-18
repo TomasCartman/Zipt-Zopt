@@ -8,7 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.blackpineapple.ziptzopt.data.model.User
 import com.blackpineapple.ziptzopt.firebase.Auth
 import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabase
-import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImpl
 import com.blackpineapple.ziptzopt.utils.QueryPreferences
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.collect
@@ -17,7 +17,7 @@ import timber.log.Timber
 
 class MessageActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
-    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImplementation
+    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImpl
     private lateinit var realtimeDatabase: FirebaseRealtimeDatabase
     private var userMutableLiveData: MutableLiveData<User> = MutableLiveData()
     val userLiveData: LiveData<User>
@@ -25,8 +25,8 @@ class MessageActivityViewModel : ViewModel() {
 
     init {
         if(auth.currentUser != null) {
-            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
-            realtimeDatabase = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
+            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
+            realtimeDatabase = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
             //firebaseRealtimeDatabaseImplementation.getUserInfo()
             //userMutableLiveData = firebaseRealtimeDatabaseImplementation.userMutableLiveData
             getUserInfo()

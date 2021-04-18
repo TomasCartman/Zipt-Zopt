@@ -9,7 +9,7 @@ import androidx.core.widget.doOnTextChanged
 import com.alimuzaffar.lib.pin.PinEntryEditText
 import com.blackpineapple.ziptzopt.R
 import com.blackpineapple.ziptzopt.firebase.Auth
-import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImpl
 
 import com.google.firebase.FirebaseException
 import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException
@@ -100,7 +100,7 @@ class CodeVerificationActivity : AppCompatActivity() {
                     val user = task.result?.user
                     auth.updateCurrentUser(user)
                     if(user != null) {
-                        val firebaseRepository = FirebaseRealtimeDatabaseImplementation(user.uid)
+                        val firebaseRepository = FirebaseRealtimeDatabaseImpl.getInstance(user.uid)
                         firebaseRepository.setUserPhoneNumber(user.phoneNumber)
                         firebaseRepository.setUserUid(user.uid)
                         firebaseRepository.setPhoneNumberToUid(user.phoneNumber, user.uid)

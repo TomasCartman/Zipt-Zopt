@@ -11,7 +11,7 @@ import androidx.lifecycle.viewModelScope
 import com.blackpineapple.ziptzopt.data.model.Contact
 import com.blackpineapple.ziptzopt.firebase.Auth
 import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabase
-import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
@@ -20,7 +20,7 @@ import timber.log.Timber
 
 class ContactsActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
-    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImplementation
+    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImpl
     private lateinit var realtimeDatabase: FirebaseRealtimeDatabase
     private var userContacts = mutableListOf<Contact>()
     private var firebaseNumbers = hashMapOf<String, String>()
@@ -30,7 +30,7 @@ class ContactsActivityViewModel : ViewModel() {
 
     init {
         if(auth.currentUser != null) {
-            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
+            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
             realtimeDatabase = firebaseRealtimeDatabaseImplementation
         }
     }

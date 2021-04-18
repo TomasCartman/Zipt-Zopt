@@ -7,7 +7,7 @@ import androidx.lifecycle.viewModelScope
 import com.blackpineapple.ziptzopt.data.model.Message
 import com.blackpineapple.ziptzopt.firebase.Auth
 import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabase
-import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImplementation
+import com.blackpineapple.ziptzopt.firebase.FirebaseRealtimeDatabaseImpl
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
@@ -16,7 +16,7 @@ import timber.log.Timber
 
 class ChatActivityViewModel : ViewModel() {
     private val auth = Auth.firebaseAuth
-    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImplementation
+    private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImpl
     private lateinit var realtimeDatabase: FirebaseRealtimeDatabase
     private var _pushKey: String? = null
     private var isGroup: Boolean = false
@@ -27,8 +27,8 @@ class ChatActivityViewModel : ViewModel() {
 
     init {
         if(auth.currentUser != null) {
-            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
-            realtimeDatabase = FirebaseRealtimeDatabaseImplementation(auth.currentUser.uid)
+            firebaseRealtimeDatabaseImplementation = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
+            realtimeDatabase = FirebaseRealtimeDatabaseImpl.getInstance(auth.currentUser.uid)
         }
     }
 
@@ -70,7 +70,7 @@ class ChatActivityViewModel : ViewModel() {
                     when {
                         it.isSuccess -> {
                             val messages = it.getOrNull()
-                            messagesMutableLiveData.postValue(messages)
+                            messagesMutableLiveData.postValue(messages?.sortedBy { message -> message.timestamp })
                             Timber.d(messages.toString())
                         }
                         it.isFailure -> {

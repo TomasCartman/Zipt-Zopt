@@ -1,28 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/bubble_constraint_layout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
     <LinearLayout
-        android:id="@+id/metadata_bubble_textView"
+        android:id="@+id/bubble_container"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
-        android:lineSpacingExtra="2dp"
-        android:textSize="13.5sp"
-        android:paddingTop="8dp"
-        android:paddingBottom="8dp"
-        android:textColor="@color/black"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintTop_toTopOf="parent"
         android:orientation="vertical"
 
         style="@style/ZiptZopt.BubbleOutgoing"
-        android:paddingStart="10dp"
-        android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
         android:background="@drawable/bg_speech_bubble_outgoing">
 
