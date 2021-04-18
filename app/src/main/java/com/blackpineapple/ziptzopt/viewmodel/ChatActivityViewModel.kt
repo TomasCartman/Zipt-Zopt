@@ -60,7 +60,9 @@ class ChatActivityViewModel : ViewModel() {
     }
 
     fun sendMessage(message: String) {
-        _pushKey?.let { realtimeDatabase.sendMessage(message, it) }
+        if (_pushKey != null) {
+            realtimeDatabase.sendMessage(message, _pushKey.toString())
+        }
     }
 
     private fun getCompleteChatMessages() {
@@ -70,7 +72,8 @@ class ChatActivityViewModel : ViewModel() {
                     when {
                         it.isSuccess -> {
                             val messages = it.getOrNull()
-                            messagesMutableLiveData.postValue(messages?.sortedBy { message -> message.timestamp })
+                            //messages?.sortedBy { message -> message.timestamp }
+                            messagesMutableLiveData.postValue(messages)
                             Timber.d(messages.toString())
                         }
                         it.isFailure -> {
@@ -82,6 +85,7 @@ class ChatActivityViewModel : ViewModel() {
         }
     }
 
+    /*
     private fun getAllPrivateChatFriends() {
         firebaseRealtimeDatabaseImplementation.getAllUserPrivateChatsFriends({ hashMap ->
             if(hashMap[friendPhoneNumber] == null) {
@@ -91,6 +95,8 @@ class ChatActivityViewModel : ViewModel() {
 
         })
     }
+
+     */
 
     /*
     private fun getAllPrivateChatFriends2() {
@@ -116,6 +122,12 @@ class ChatActivityViewModel : ViewModel() {
     private fun addNewFriendPrivateAsync(friendPhoneNumber: String) = viewModelScope.async {
         val pushKey = realtimeDatabase.addNewFriendPrivateChatToUser(friendPhoneNumber)
         _pushKey = pushKey
+
+        val uid = realtimeDatabase.getUidFromPhoneNumberSync(friendPhoneNumber)
+        if (uid != null) {
+            realtimeDatabase.addNewFriendPrivateChatToUser(auth.currentUser.phoneNumber, pushKey, uid)
+        }
+
         Timber.d(pushKey)
     }
 }

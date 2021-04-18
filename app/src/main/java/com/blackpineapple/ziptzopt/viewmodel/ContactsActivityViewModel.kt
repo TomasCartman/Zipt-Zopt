@@ -3,7 +3,6 @@ package com.blackpineapple.ziptzopt.viewmodel
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
-import android.widget.Toast
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -23,7 +22,6 @@ class ContactsActivityViewModel : ViewModel() {
     private lateinit var firebaseRealtimeDatabaseImplementation: FirebaseRealtimeDatabaseImpl
     private lateinit var realtimeDatabase: FirebaseRealtimeDatabase
     private var userContacts = mutableListOf<Contact>()
-    private var firebaseNumbers = hashMapOf<String, String>()
     private var contactListMutableLiveData = MutableLiveData<List<Contact>>()
     val contactListLiveData: LiveData<List<Contact>>
         get() = contactListMutableLiveData
@@ -35,23 +33,18 @@ class ContactsActivityViewModel : ViewModel() {
         }
     }
 
-    fun getContacts(context: Context) { // Delete 'i' variable after tests
+    fun getContacts(context: Context) {
         viewModelScope.launch(Dispatchers.IO) {
-            //getFirebaseUsersNumberAsync(context).await()
             getPhoneUserContactsAsync(context).await()
-            val firebaseNumbers = getFirebaseUsersNumberSync()
-            Timber.d("firebaseNumbers: ${firebaseNumbers.toString()}")
+            val firebaseNumbers = getAllFirebaseUsersNumberSync()
+            Timber.d("firebaseNumbers: $firebaseNumbers")
 
             val contactsInZiptZopt = mutableListOf<Contact>()
-            var i = 0
             if(userContacts.isNotEmpty() && firebaseNumbers.isNotEmpty()) {
                 for (contact in userContacts) {
-                    i += 1
-                    val contactNumber =
-                            if(contact.refectorNumber().length == 14) contact.refectorNumber()
-                            else contact.number
+                    if(contact.refactorNumber().length == 14)  contact.number = contact.refactorNumber()
 
-                    if(firebaseNumbers[contactNumber] != null) {
+                    if(firebaseNumbers[contact.number] != null) {
                         if(contactsInZiptZopt.find { it.number == contact.number } == null) {
                             contactsInZiptZopt.add(contact)
                         }
@@ -59,9 +52,7 @@ class ContactsActivityViewModel : ViewModel() {
                 }
             }
 
-
             withContext(Dispatchers.Main) {
-                Timber.d("i: $i")
                 Timber.d("$contactsInZiptZopt")
                 contactListMutableLiveData.postValue(contactsInZiptZopt)
             }
@@ -109,33 +100,7 @@ class ContactsActivityViewModel : ViewModel() {
             userContacts = contactList
     }
 
-    private fun getFirebaseUsersNumberAsync(context: Context) = viewModelScope.async(Dispatchers.IO) {
-            firebaseRealtimeDatabaseImplementation.getPhoneNumberToUid({ numberHashMap ->
-                    firebaseNumbers = numberHashMap
-            }, {
-                Toast.makeText(context, "You must have a internet connection", Toast.LENGTH_SHORT).show()
-            })
-        }
-
-    /*
-    private fun getFirebaseUsersNumber(context: Context) {
-        viewModelScope.launch {
-            realtimeDatabase.getPhoneNumberToUid().collect {
-                when {
-                    it.isSuccess -> {
-
-                    }
-                    it.isFailure -> {
-                        Toast.makeText(context, "You must have a internet connection", Toast.LENGTH_SHORT).show()
-                    }
-                }
-            }
-        }
-    }
-
-     */
-
-    private fun getFirebaseUsersNumberSync(): HashMap<String, String> {
-        return realtimeDatabase.getPhoneNumberToUidSync()
+    private fun getAllFirebaseUsersNumberSync(): HashMap<String, String> {
+        return realtimeDatabase.getAllUserFriendPhoneNumbersToUidSync()
     }
 }

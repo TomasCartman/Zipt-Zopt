@@ -20,7 +20,7 @@ interface FirebaseRealtimeDatabase {
 
     fun setUserPhoneNumber(phoneNumber: String)
 
-    fun getPhoneNumberToUidSync(): HashMap<String, String>
+    suspend fun getUidFromPhoneNumberSync(phoneNumber: String): String?
 
     fun getAllUserPrivateChatFriends(): Flow<Result<HashMap<String, String>>>
 
@@ -31,4 +31,8 @@ interface FirebaseRealtimeDatabase {
     fun getCompletePrivateChat(pushKey: String):Flow<Result<List<Message>>>
 
     fun addNewFriendPrivateChatToUser(phoneNumber: String): String
+
+    fun addNewFriendPrivateChatToUser(phoneNumber: String, pushKey: String, friendUid: String)
+
+    fun getAllUserFriendPhoneNumbersToUidSync(): HashMap<String, String>
 }

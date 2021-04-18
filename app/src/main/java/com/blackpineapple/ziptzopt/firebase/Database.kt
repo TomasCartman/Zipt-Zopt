@@ -33,15 +33,15 @@ class Database {
         private val groupHasSeen: DatabaseReference = firebaseDatabase.reference.child(REF_GROUP_HAS_SEEN)
 
 
-        fun userReference(uid: String): DatabaseReference = usersReference.child(uid)
+        fun userRef(uid: String): DatabaseReference = usersReference.child(uid)
 
-        fun phoneNumberToUidReference(): DatabaseReference = phoneNumberToUidReference
+        fun phoneNumberToUidRef(): DatabaseReference = phoneNumberToUidReference
 
-        fun usersToChatContacts(uid: String): DatabaseReference = usersToChatContacts.child(uid)
+        fun usersToChatContactsRef(uid: String): DatabaseReference = usersToChatContacts.child(uid)
 
-        fun usersToChatContacts(): DatabaseReference = usersToChatContacts
+        fun usersToChatContactsRef(): DatabaseReference = usersToChatContacts
 
-        fun privateChats(pushKey: String): DatabaseReference = privateChats.child(pushKey)
+        fun privateChatsRef(pushKey: String): DatabaseReference = privateChats.child(pushKey)
 
         fun getServerTimestamp(): Map<String, Any> = ServerValue.TIMESTAMP
     }

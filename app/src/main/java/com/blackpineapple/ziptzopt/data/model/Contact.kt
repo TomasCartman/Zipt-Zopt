@@ -1,13 +1,13 @@
 package com.blackpineapple.ziptzopt.data.model
 
 data class Contact(
-        val name: String,
-        val number: String,
+        var name: String,
+        var number: String,
         var message: String = "",
         var picture: String = ""
 ) {
 
-    fun refectorNumber(): String { // this function only works in a Brazilian number system
+    fun refactorNumber(): String { // this function only works in a Brazilian number system
         var refNum = number
         if (!refNum.startsWith("+")) { // Add country code (Brazilian)
             refNum = "+55$refNum"

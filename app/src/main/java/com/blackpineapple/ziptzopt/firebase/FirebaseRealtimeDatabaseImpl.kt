@@ -19,10 +19,8 @@ import java.util.concurrent.ExecutionException
 import kotlin.collections.HashMap
 
 class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDatabase {
-    private val userDatabaseRef: DatabaseReference = Database.userReference(uid)
-    private val phoneNumberToUidRef: DatabaseReference = Database.phoneNumberToUidReference()
+    private val userDatabaseRef: DatabaseReference = Database.userRef(uid)
     var userMutableLiveData = MutableLiveData<User>()
-
 
     init {
 
@@ -48,10 +46,10 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
                 this@callbackFlow.sendBlocking(Result.failure(error.toException()))
             }
         }
-        Database.userReference(uid).addValueEventListener(userValueListener)
+        Database.userRef(uid).addValueEventListener(userValueListener)
 
         awaitClose {
-            Database.userReference(uid).removeEventListener(userValueListener)
+            Database.userRef(uid).removeEventListener(userValueListener)
         }
     }
 
@@ -71,7 +69,7 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
         userDatabaseRef
                 .updateChildren(mapOf(Pair<String, Any>(USER_CHILD_PHONE_NUMBER, phoneNumber)))
     }
-
+/*
      fun getUidFromPhoneNumber(phoneNumber: String) {
         phoneNumberToUidRef.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
@@ -85,6 +83,9 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
         })
     }
 
+ */
+
+    /*
      fun getPhoneNumberToUid(
          successCallback: (contactHashMap: HashMap<String, String>) -> Unit,
          errorCallback: (exception: Exception) -> Unit
@@ -102,6 +103,8 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
             errorCallback(it)
         }
     }
+
+     */
 
     /*
     @ExperimentalCoroutinesApi
@@ -121,9 +124,36 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
 
      */
 
-    override fun getPhoneNumberToUidSync(): HashMap<String, String> {
+    override suspend fun getUidFromPhoneNumberSync(phoneNumber: String): String? {
+        val snapshot = Database.phoneNumberToUidRef().child(phoneNumber).get().await()
+        return snapshot.value.toString()
+    }
+
+    fun setPhoneNumberToUid(phoneNumber: String, uid: String) {
+        val hashMap = HashMap<String, Any>()
+        hashMap[phoneNumber] = uid
+        Database.phoneNumberToUidRef().updateChildren(hashMap)
+    }
+
+    override fun addNewFriendPrivateChatToUser(friendPhoneNumber: String): String {
+        val ref = Database.usersToChatContactsRef(uid)
+        val hashMap = HashMap<String, Any>()
+        val chatPushKey = ref.push().key.toString()
+        hashMap[friendPhoneNumber] = chatPushKey
+        ref.updateChildren(hashMap)
+        return chatPushKey
+    }
+
+    override fun addNewFriendPrivateChatToUser(phoneNumber: String, pushKey: String, friendUid: String) {
+        val ref = Database.usersToChatContactsRef().child(friendUid)
+        val hashMap = HashMap<String, Any>()
+        hashMap[phoneNumber] = pushKey
+        ref.updateChildren(hashMap)
+    }
+
+    override fun getAllUserFriendPhoneNumbersToUidSync(): HashMap<String, String> {
         val hashMap = HashMap<String, String>()
-        val request = phoneNumberToUidRef.get()
+        val request = Database.phoneNumberToUidRef().get()
 
         try {
             Tasks.await(request)
@@ -149,26 +179,11 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
         }
     }
 
-    fun setPhoneNumberToUid(phoneNumber: String, uid: String) {
-        val hashMap = HashMap<String, Any>()
-        hashMap[phoneNumber] = uid
-        phoneNumberToUidRef.updateChildren(hashMap)
-    }
-
-    override fun addNewFriendPrivateChatToUser(phoneNumber: String): String {
-        val ref = Database.usersToChatContacts(uid)
-        val hashMap = HashMap<String, Any>()
-        val chatPushKey = ref.push().key.toString()
-        hashMap[phoneNumber] = chatPushKey
-        Database.usersToChatContacts(uid).updateChildren(hashMap)
-        return chatPushKey
-    }
-
     fun getAllUserPrivateChatsFriends(
         successCallback: (privateChatsFriendsHashMap: HashMap<String, String>) -> Unit,
         errorCallback: (exception: Exception) -> Unit
     ) {
-        val ref = Database.usersToChatContacts(uid)
+        val ref = Database.usersToChatContactsRef(uid)
         val hashMap = HashMap<String, String>()
         ref.get().addOnSuccessListener {
             if (it != null) {
@@ -200,43 +215,41 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
             }
 
         }
-        Database.usersToChatContacts(uid).addValueEventListener(eventListener)
+        Database.usersToChatContactsRef(uid).addValueEventListener(eventListener)
 
         awaitClose {
-            Database.usersToChatContacts(uid).removeEventListener(eventListener)
+            Database.usersToChatContactsRef(uid).removeEventListener(eventListener)
         }
     }
 
     override fun sendMessage(messageText: String, pushKey: String) {
-        val ref = Database.privateChats(pushKey)
+        val ref = Database.privateChatsRef(pushKey)
         val timestamp = Database.getServerTimestamp()
         val hashMap = HashMap<String, Any>()
+        val messageHashMap = HashMap<String, Any>()
         val messageId = ref.push().key.toString()
 
-        val message = Message(
-                messageId = messageId,
-                sender = uid,
-                hasSeen = false,
-                messageText = messageText
-        )
-        hashMap[messageId] = message
+        messageHashMap["messageId"] = messageId
+        messageHashMap["sender"] = uid
+        messageHashMap["hasSeen"] = false
+        messageHashMap["messageText"] = messageText
+        messageHashMap["timestamp"] = timestamp
+        hashMap[messageId] = messageHashMap
 
-        ref.updateChildren(hashMap).continueWith {
-            ref.child(messageId).child("timestamp").setValue(timestamp)
-        }
+        ref.updateChildren(hashMap)
     }
 
     override suspend fun getUserContactNumberToPushKey(phoneNumber: String): String? {
-        val request = Database.usersToChatContacts(uid).child(phoneNumber).get().await()
-        if(request != null) {
-            val pushKey = request.value.toString()
-            return pushKey
+        val request = Database.usersToChatContactsRef(uid).child(phoneNumber).get().await()
+        if(request.value != null) {
+            return request.value.toString()
         }
         return null
     }
 
     @ExperimentalCoroutinesApi
     override fun getCompletePrivateChat(pushKey: String) = callbackFlow<Result<List<Message>>> {
+        val ref = Database.privateChatsRef(pushKey).orderByChild("timestamp")
         val eventListener = object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 val messages = snapshot.children.map { message ->
@@ -249,10 +262,10 @@ class FirebaseRealtimeDatabaseImpl(private val uid: String) : FirebaseRealtimeDa
                 this@callbackFlow.sendBlocking(Result.failure(error.toException()))
             }
         }
-        Database.privateChats(pushKey).addValueEventListener(eventListener)
+        ref.addValueEventListener(eventListener)
 
         awaitClose {
-            Database.privateChats(pushKey).removeEventListener(eventListener)
+            ref.removeEventListener(eventListener)
         }
     }
 
