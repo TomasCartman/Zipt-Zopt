@@ -11,19 +11,20 @@
         android:layout_height="wrap_content"
         android:layout_marginVertical="8dp"
         android:lineSpacingExtra="2dp"
-        style="@style/ZiptZopt.BubbleOutgoing"
         android:textSize="13.5sp"
-        android:paddingStart="10dp"
-        android:paddingTop="4dp"
-        android:paddingEnd="20dp"
-        android:paddingBottom="10dp"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
         android:textColor="@color/black"
         app:layout_constraintWidth_percent="0.8"
         app:layout_constraintWidth_max="wrap"
         app:layout_constraintTop_toTopOf="parent"
+        android:orientation="vertical"
+
+        style="@style/ZiptZopt.BubbleOutgoing"
+        android:paddingStart="10dp"
+        android:paddingEnd="20dp"
         app:layout_constraintEnd_toEndOf="parent"
-        android:background="@drawable/bg_speech_bubble_outgoing"
-        android:orientation="vertical">
+        android:background="@drawable/bg_speech_bubble_outgoing">
 
         <TextView
             android:id="@+id/message_bubble_textView"

@@ -60,6 +60,7 @@ class ContactsAdapter(private val contactList: List<Contact>) : RecyclerView.Ada
             intent.putExtra(ChatActivity.ARG_NAME, nameTextView.text)
             intent.putExtra(ChatActivity.ARG_NUMBER, phoneNumber)
             intent.putExtra(ChatActivity.ARG_PICTURE, pictureLink)
+            intent.putExtra(ChatActivity.ARG_IS_GROUP, false)
             itemView.context.startActivity(intent)
         }
     }

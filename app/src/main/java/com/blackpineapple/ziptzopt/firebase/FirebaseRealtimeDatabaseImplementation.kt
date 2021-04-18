@@ -2,6 +2,7 @@ package com.blackpineapple.ziptzopt.firebase
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
+import com.blackpineapple.ziptzopt.data.model.Message
 import com.blackpineapple.ziptzopt.data.model.User
 import com.google.android.gms.tasks.Tasks
 import com.google.firebase.database.*
@@ -10,9 +11,12 @@ import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.channels.sendBlocking
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
+import kotlinx.coroutines.tasks.await
 import timber.log.Timber
 import java.lang.Exception
 import java.lang.NullPointerException
+import java.sql.Timestamp
+import java.util.*
 import java.util.concurrent.ExecutionException
 import kotlin.collections.HashMap
 
@@ -148,11 +152,13 @@ class FirebaseRealtimeDatabaseImplementation(private val uid: String) : Firebase
         phoneNumberToUidRef.updateChildren(hashMap)
     }
 
-    fun addNewFriendPrivateChatToUser(phoneNumber: String) {
+    override fun addNewFriendPrivateChatToUser(phoneNumber: String): String {
         val ref = Database.usersToChatContacts(uid)
         val hashMap = HashMap<String, Any>()
-        hashMap[phoneNumber] = ref.push().key.toString()
+        val chatPushKey = ref.push().key.toString()
+        hashMap[phoneNumber] = chatPushKey
         Database.usersToChatContacts(uid).updateChildren(hashMap)
+        return chatPushKey
     }
 
     fun getAllUserPrivateChatsFriends(
@@ -198,20 +204,48 @@ class FirebaseRealtimeDatabaseImplementation(private val uid: String) : Firebase
         }
     }
 
-    fun getUserPrivateChatFriend(
-        phoneNumber: String,
-        successCallback: (privateChatsFriendsHashMap: HashMap<String, String>) -> Unit,
-        errorCallback: (exception: Exception) -> Unit
-    ) {
-        val ref = Database.usersToChatContacts(uid).child(phoneNumber)
-        ref.get().addOnSuccessListener {
-            val hashMap = HashMap<String, String>()
-            if(it != null) {
-                Timber.d(it.toString())
+    override fun sendMessage(message: String, pushKey: String) {
+        val ref = Database.privateChats(pushKey)
+        val hashMap = HashMap<String, Any>()
+        val messageId = ref.push().key.toString()
+        val message = Message(
+                messageId = messageId,
+                sender = uid,
+                timestamp = 1412121L,
+                hasSeen = false,
+                messageText = message
+        )
+        hashMap[messageId] = message
+        ref.updateChildren(hashMap)
+    }
+
+    override suspend fun getUserContactNumberToPushKey(phoneNumber: String): String? {
+        val request = Database.usersToChatContacts(uid).child(phoneNumber).get().await()
+        if(request != null) {
+            val pushKey = request.value.toString()
+            return pushKey
+        }
+        return null
+    }
+
+    @ExperimentalCoroutinesApi
+    override fun getCompletePrivateChat(pushKey: String) = callbackFlow<Result<List<Message>>> {
+        val eventListener = object : ValueEventListener {
+            override fun onDataChange(snapshot: DataSnapshot) {
+                val messages = snapshot.children.map { message ->
+                    message.getValue(Message::class.java)
+                }
+                this@callbackFlow.sendBlocking(Result.success(messages.filterNotNull()))
             }
-        }.addOnFailureListener {
-            Timber.e(it.stackTraceToString())
-            errorCallback(it)
+
+            override fun onCancelled(error: DatabaseError) {
+                this@callbackFlow.sendBlocking(Result.failure(error.toException()))
+            }
+        }
+        Database.privateChats(pushKey).addValueEventListener(eventListener)
+
+        awaitClose {
+            Database.privateChats(pushKey).removeEventListener(eventListener)
         }
     }
 
